@@ -1907,6 +1907,14 @@
           renderFullMenu();
           refreshAdminData();
           updateSupabaseBadges('🟢 Supabase Synced', '');
+        } else if (!prodErr && dbProducts && dbProducts.length === 0) {
+          // Table exists in Supabase but is empty -> auto-seed default products to cloud
+          console.log('Seeding initial products to Supabase cloud...');
+          for (const p of DEFAULT_PRODUCTS) {
+            await cloudSaveProduct(p);
+          }
+          await cloudSaveSiteSettings(DEFAULT_SITE_CONTENT);
+          updateSupabaseBadges('🟢 Supabase Live', '');
         } else if (prodErr && prodErr.code === 'PGRST205') {
           // Table doesn't exist yet in Supabase
           updateSupabaseBadges('🟡 Run SQL in Supabase', 'connecting');
