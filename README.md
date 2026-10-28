@@ -2,6 +2,8 @@
 
 > **"Fresh dough. Bold coffee. Pure joy."**
 
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fblubador-shhh%2Fdoughnut-store)
+
 A complete, self-contained, production-quality e-commerce and store operations web application for **DoughNut**, a modern boutique bakery & specialty café. Built with zero build step dependencies (vanilla HTML5, CSS3, and modern JavaScript).
 
 ---
