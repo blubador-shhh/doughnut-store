@@ -1,0 +1,2978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DoughNut | Fresh dough. Bold coffee. Pure joy.</title>
+  
+  <meta name="description" content="Artisanal hand-crafted donuts and specialty roasted coffee made fresh daily. Order online with full customer and admin management!">
+  <meta property="og:title" content="DoughNut | Artisanal Donuts & Specialty Coffee">
+  <meta property="og:description" content="Fresh dough. Bold coffee. Pure joy. Savor handcrafted gourmet donuts and specialty espresso drinks.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=1200&q=80">
+  <meta name="theme-color" content="#FF6FA3">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23FF6FA3'/><circle cx='50' cy='50' r='18' fill='%23FFF6EC'/><circle cx='38' cy='32' r='4' fill='%23FFF'/><circle cx='62' cy='32' r='3.5' fill='%23D98E3F'/><circle cx='34' cy='62' r='4' fill='%23A3E4D7'/><circle cx='65' cy='62' r='3.5' fill='%23FFF'/></svg>" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,400&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-cream: #FFF6EC;
+      --bg-card: #FFFFFF;
+      --text-espresso: #3B2418;
+      --text-muted: #7A5C4D;
+      --primary-pink: #FF6FA3;
+      --primary-pink-hover: #E85B8F;
+      --primary-pink-light: #FFEBF2;
+      --secondary-caramel: #D98E3F;
+      --caramel-light: #FDF3E7;
+      --accent-mint: #94DEC5;
+      --mint-light: #EBF9F4;
+      --admin-navy: #1D2D44;
+      --border-color: rgba(59, 36, 24, 0.1);
+      
+      --font-display: 'Fredoka', cursive, sans-serif;
+      --font-body: 'DM Sans', system-ui, -apple-system, sans-serif;
+
+      --radius-sm: 10px;
+      --radius-md: 18px;
+      --radius-lg: 26px;
+      --radius-full: 9999px;
+
+      --shadow-sm: 0 4px 12px rgba(59, 36, 24, 0.05);
+      --shadow-md: 0 8px 24px rgba(59, 36, 24, 0.08);
+      --shadow-lg: 0 16px 36px rgba(59, 36, 24, 0.12);
+      --shadow-pink: 0 8px 24px rgba(255, 111, 163, 0.35);
+
+      --transition-fast: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      --transition-base: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      --transition-bounce: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      background-color: var(--bg-cream);
+      color: var(--text-espresso);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { max-width: 100%; height: auto; display: block; }
+    button, input, select, textarea { font-family: inherit; font-size: inherit; color: inherit; border: none; outline: none; }
+    button { cursor: pointer; background: none; }
+    a { color: inherit; text-decoration: none; }
+    :focus-visible { outline: 3px solid var(--primary-pink); outline-offset: 3px; }
+
+    .container { width: 100%; max-width: 1220px; margin: 0 auto; padding: 0 1.5rem; }
+    h1, h2, h3, h4, .font-heading { font-family: var(--font-display); font-weight: 600; line-height: 1.2; color: var(--text-espresso); }
+    .section-header { text-align: center; max-width: 640px; margin: 0 auto 3rem; }
+    .badge-sub {
+      display: inline-block;
+      background: var(--primary-pink-light);
+      color: var(--primary-pink-hover);
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.35rem 1rem;
+      border-radius: var(--radius-full);
+      margin-bottom: 0.75rem;
+    }
+    .section-title { font-size: clamp(2rem, 3.5vw, 2.75rem); margin-bottom: 0.75rem; }
+    .section-desc { color: var(--text-muted); font-size: 1.05rem; }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 0.85rem 1.75rem;
+      border-radius: var(--radius-full);
+      transition: all var(--transition-bounce);
+      border: 2px solid transparent;
+      user-select: none;
+    }
+    .btn-primary { background: var(--primary-pink); color: white; box-shadow: var(--shadow-pink); }
+    .btn-primary:hover { background: var(--primary-pink-hover); transform: translateY(-3px) scale(1.02); }
+    .btn-secondary { background: var(--caramel-light); color: var(--secondary-caramel); border-color: rgba(217, 142, 63, 0.25); }
+    .btn-secondary:hover { background: var(--secondary-caramel); color: white; transform: translateY(-3px); }
+    .btn-outline { border: 2px solid var(--text-espresso); color: var(--text-espresso); }
+    .btn-outline:hover { background: var(--text-espresso); color: var(--bg-cream); transform: translateY(-2px); }
+    .btn-admin { background: var(--admin-navy); color: white; border: 2px solid #0D1B2A; }
+    .btn-admin:hover { background: #0D1B2A; transform: translateY(-2px); }
+    .btn-sm { padding: 0.45rem 1rem; font-size: 0.85rem; }
+
+    /* ADMIN TOP FLOATING BAR */
+    .admin-top-bar {
+      display: none;
+      background: var(--admin-navy);
+      color: white;
+      padding: 0.65rem 1.5rem;
+      font-size: 0.88rem;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+    }
+    .admin-top-bar.active { display: block; }
+    .admin-bar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .admin-badge-pill {
+      background: #E63946;
+      color: white;
+      padding: 0.2rem 0.65rem;
+      border-radius: var(--radius-full);
+      font-weight: 700;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .admin-actions-group {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+    .btn-admin-bar {
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 0.35rem 0.85rem;
+      border-radius: var(--radius-full);
+      font-weight: 600;
+      font-size: 0.82rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all var(--transition-fast);
+    }
+    .btn-admin-bar:hover { background: white; color: var(--admin-navy); }
+    .btn-admin-bar.highlight { background: var(--primary-pink); border-color: var(--primary-pink); }
+    .btn-admin-bar.highlight:hover { background: var(--primary-pink-hover); color: white; }
+
+    /* Announcement & Navbar */
+    .announcement-bar {
+      background: var(--secondary-caramel);
+      color: white;
+      font-size: 0.825rem;
+      font-weight: 600;
+      text-align: center;
+      padding: 0.45rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      position: relative;
+    }
+    .navbar-sticky-wrapper {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 246, 236, 0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      transition: box-shadow var(--transition-fast);
+    }
+    .navbar { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+    .brand-logo { display: flex; align-items: center; gap: 0.65rem; font-family: var(--font-display); font-size: 1.7rem; font-weight: 700; color: var(--text-espresso); }
+    .brand-logo-icon { width: 40px; height: 40px; transition: transform var(--transition-bounce); }
+    .brand-logo:hover .brand-logo-icon { transform: rotate(25deg) scale(1.1); }
+    .nav-links { display: flex; align-items: center; gap: 1.75rem; list-style: none; }
+    .nav-link { font-weight: 600; font-size: 1.05rem; position: relative; padding: 0.25rem 0; }
+    .nav-link:hover { color: var(--primary-pink); }
+    .nav-actions { display: flex; align-items: center; gap: 0.85rem; }
+    .nav-user-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: white;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-full);
+      font-weight: 600;
+      font-size: 0.9rem;
+      box-shadow: var(--shadow-sm);
+      transition: all var(--transition-fast);
+    }
+    .nav-user-btn:hover { border-color: var(--primary-pink); color: var(--primary-pink); transform: translateY(-2px); }
+    .nav-user-btn.logged-admin { background: var(--admin-navy); color: white; border-color: var(--admin-navy); }
+    .nav-icon-btn {
+      position: relative;
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-full);
+      background: white;
+      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-sm);
+    }
+    .cart-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background: var(--primary-pink);
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 700;
+      height: 20px;
+      min-width: 20px;
+      padding: 0 5px;
+      border-radius: var(--radius-full);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform var(--transition-bounce);
+    }
+    .cart-badge.bump { transform: scale(1.35); }
+    .hamburger-btn { display: none; flex-direction: column; gap: 5px; width: 32px; height: 24px; justify-content: center; }
+    .hamburger-btn span { display: block; width: 100%; height: 3px; background: var(--text-espresso); border-radius: var(--radius-full); }
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 106px;
+      left: 0;
+      right: 0;
+      background: var(--bg-cream);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-lg);
+      border-bottom: 2px solid var(--border-color);
+      z-index: 99;
+      transform: translateY(-110%);
+      transition: transform var(--transition-base);
+    }
+    .mobile-menu.open { transform: translateY(0); }
+    .mobile-nav-links { list-style: none; display: flex; flex-direction: column; gap: 1.25rem; font-size: 1.2rem; font-weight: 600; text-align: center; }
+
+    /* Hero Section */
+    .hero-section { padding: 4rem 0 5rem; position: relative; overflow: hidden; }
+    .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; align-items: center; gap: 3rem; }
+    .hero-headline { font-size: clamp(2.6rem, 5vw, 4.2rem); margin-bottom: 1.25rem; line-height: 1.1; letter-spacing: -0.02em; }
+    .hero-headline span.highlight { color: var(--primary-pink); position: relative; display: inline-block; }
+    .hero-subtext { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 2rem; max-width: 520px; }
+    .hero-buttons { display: flex; gap: 1.25rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+    .hero-perks { display: flex; gap: 2rem; align-items: center; padding-top: 1.5rem; border-top: 1px dashed var(--border-color); flex-wrap: wrap; }
+    .hero-perk-item { display: flex; align-items: center; gap: 0.5rem; font-weight: 600; font-size: 0.95rem; }
+    .hero-donut-stage { position: relative; width: 100%; max-width: 440px; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; margin: 0 auto; }
+    .hero-donut-blob { position: absolute; width: 100%; height: 100%; background: radial-gradient(circle, var(--primary-pink-light) 0%, rgba(255, 235, 242, 0) 70%); border-radius: 50%; z-index: 1; animation: pulseBlob 5s ease-in-out infinite alternate; }
+    @keyframes pulseBlob { 0% { transform: scale(0.9); } 100% { transform: scale(1.1); } }
+    .floating-donut-svg { width: 82%; height: 82%; z-index: 2; filter: drop-shadow(0 24px 32px rgba(59, 36, 24, 0.2)); animation: heroFloat 4s ease-in-out infinite alternate; }
+    @keyframes heroFloat { 0% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-16px) rotate(3deg); } 100% { transform: translateY(6px) rotate(-3deg); } }
+    .floating-chip { position: absolute; background: white; padding: 0.75rem 1.25rem; border-radius: var(--radius-full); box-shadow: var(--shadow-md); display: flex; align-items: center; gap: 0.65rem; font-weight: 700; font-size: 0.9rem; z-index: 3; }
+    .chip-1 { top: 10%; left: 0; }
+    .chip-2 { bottom: 12%; right: 0; }
+    .wavy-divider { width: 100%; overflow: hidden; line-height: 0; transform: rotate(180deg); margin-bottom: -1px; }
+    .wavy-divider svg { display: block; width: calc(100% + 1.3px); height: 50px; }
+    .wavy-divider.flipped { transform: rotate(0deg); margin-top: -1px; margin-bottom: 0; }
+    .section-light { background: white; padding: 5rem 0; }
+
+    /* Product Cards & Grids */
+    .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 2rem; }
+    .product-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: all var(--transition-base);
+    }
+    .product-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: rgba(255, 111, 163, 0.3); }
+    .product-card.sold-out { opacity: 0.75; filter: grayscale(0.2); }
+    .product-image-wrap { position: relative; width: 100%; aspect-ratio: 4/3; background: var(--bg-cream); overflow: hidden; }
+    .product-image-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--transition-bounce); }
+    .product-card:hover .product-image-wrap img { transform: scale(1.08); }
+    .img-fallback { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; background: linear-gradient(135deg, var(--primary-pink-light), var(--caramel-light)); }
+    .product-badge-tag { position: absolute; top: 12px; left: 12px; background: var(--text-espresso); color: white; font-weight: 700; font-size: 0.75rem; padding: 0.25rem 0.75rem; border-radius: var(--radius-full); z-index: 2; text-transform: uppercase; }
+    .product-badge-tag.bestseller { background: var(--primary-pink); }
+    .product-badge-tag.vegan { background: #4EA685; }
+    .product-badge-tag.new { background: var(--secondary-caramel); }
+    .product-badge-tag.sold-out-badge { background: #D90429; }
+    
+    .wishlist-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 36px;
+      height: 36px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: var(--radius-full);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      z-index: 2;
+      box-shadow: var(--shadow-sm);
+    }
+    .wishlist-btn.active { color: var(--primary-pink); background: white; }
+    .wishlist-btn.active svg { fill: var(--primary-pink); }
+
+    /* Admin Quick Edit Button on Product Card */
+    .admin-edit-prod-btn {
+      display: none;
+      position: absolute;
+      top: 12px;
+      right: 54px;
+      background: var(--admin-navy);
+      color: white;
+      border-radius: var(--radius-full);
+      padding: 0.35rem 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      z-index: 3;
+      box-shadow: var(--shadow-sm);
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .admin-edit-prod-btn:hover { background: #0D1B2A; transform: scale(1.05); }
+    body.is-admin .admin-edit-prod-btn { display: flex; }
+
+    .product-card-body { padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; }
+    .product-meta-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; }
+    .product-category { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--secondary-caramel); }
+    .product-rating { font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; gap: 3px; }
+    .product-title { font-size: 1.25rem; margin-bottom: 0.5rem; line-height: 1.3; }
+    .product-desc { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.25rem; flex-grow: 1; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .product-card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 1rem; border-top: 1px dashed var(--border-color); gap: 0.5rem; }
+    .product-price { font-family: var(--font-display); font-size: 1.35rem; font-weight: 700; }
+    .btn-quick-view { padding: 0.5rem; width: 38px; height: 38px; border-radius: var(--radius-full); background: var(--bg-cream); display: flex; align-items: center; justify-content: center; }
+
+    /* Menu Controls */
+    .menu-controls { display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 2.5rem; }
+    .filter-tabs { display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap; }
+    .filter-btn { padding: 0.65rem 1.5rem; border-radius: var(--radius-full); font-family: var(--font-display); font-weight: 600; font-size: 0.95rem; background: white; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
+    .filter-btn.active, .filter-btn:hover { background: var(--primary-pink); color: white; border-color: var(--primary-pink); box-shadow: var(--shadow-pink); }
+    .menu-search-sort-bar { display: flex; gap: 1rem; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+    .search-wrapper { position: relative; flex: 1; min-width: 260px; }
+    .search-input { width: 100%; background: white; border: 1px solid var(--border-color); border-radius: var(--radius-full); padding: 0.75rem 1rem 0.75rem 2.75rem; font-size: 0.95rem; }
+    .search-icon { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events: none; }
+    .sort-wrapper { display: flex; align-items: center; gap: 0.5rem; background: white; border: 1px solid var(--border-color); border-radius: var(--radius-full); padding: 0.4rem 1rem; }
+
+    /* Build-Your-Own Box */
+    .byo-box-section { background: linear-gradient(135deg, #FFF6EC 0%, #FFEBF2 100%); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 5rem 0; }
+    .byo-container { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 3rem; align-items: start; }
+    .byo-size-selector { display: flex; gap: 1rem; margin: 1rem 0 1.5rem; }
+    .byo-size-btn { flex: 1; padding: 1rem; background: white; border-radius: var(--radius-md); border: 2px solid var(--border-color); text-align: center; cursor: pointer; }
+    .byo-size-btn.active { border-color: var(--primary-pink); background: var(--primary-pink-light); }
+    .byo-flavors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 0.85rem; max-height: 380px; overflow-y: auto; padding-right: 0.5rem; }
+    .flavor-chip { background: white; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 0.75rem 0.5rem; text-align: center; cursor: pointer; }
+    .byo-summary-card { background: white; border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow-md); border: 1px solid var(--border-color); position: sticky; top: 100px; }
+    .box-slots-display { background: var(--bg-cream); border-radius: var(--radius-md); border: 2px dashed var(--secondary-caramel); padding: 1.5rem; margin: 1.5rem 0; display: grid; gap: 0.75rem; }
+    .box-slots-display.slots-4 { grid-template-columns: repeat(2, 1fr); }
+    .box-slots-display.slots-6 { grid-template-columns: repeat(3, 1fr); }
+    .box-slot { aspect-ratio: 1; background: white; border-radius: var(--radius-sm); display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid var(--border-color); position: relative; }
+    .box-slot.filled { background: var(--primary-pink-light); border-color: var(--primary-pink); }
+    .box-slot-remove { position: absolute; top: 2px; right: 2px; width: 18px; height: 18px; background: var(--text-espresso); color: white; border-radius: 50%; font-size: 10px; display: flex; align-items: center; justify-content: center; }
+
+    /* About, Testimonials, Contact */
+    .about-section { padding: 6rem 0; }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .about-main-img { border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); width: 100%; height: 480px; object-fit: cover; }
+    .about-floating-card { position: absolute; bottom: -20px; right: -20px; background: white; padding: 1.5rem; border-radius: var(--radius-md); box-shadow: var(--shadow-lg); max-width: 220px; border: 1px solid var(--border-color); }
+    .about-floating-card .big-stat { font-family: var(--font-display); font-size: 2.2rem; color: var(--primary-pink); line-height: 1; }
+    .about-features { margin-top: 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .about-feat-item { display: flex; gap: 0.75rem; align-items: flex-start; }
+    .about-feat-icon { width: 36px; height: 36px; background: var(--caramel-light); color: var(--secondary-caramel); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+    .testimonials-section { background: white; padding: 5rem 0; }
+    .carousel-container { position: relative; max-width: 840px; margin: 0 auto; overflow: hidden; }
+    .carousel-track { display: flex; transition: transform var(--transition-base); }
+    .carousel-slide { min-width: 100%; padding: 1rem; display: flex; justify-content: center; }
+    .testimonial-card { background: var(--bg-cream); border-radius: var(--radius-lg); padding: 2.5rem; border: 1px solid var(--border-color); text-align: center; max-width: 720px; }
+    .stars-row { color: #FFB800; display: flex; gap: 4px; justify-content: center; margin-bottom: 1.25rem; font-size: 1.25rem; }
+    .testimonial-quote { font-size: 1.2rem; font-style: italic; line-height: 1.6; margin-bottom: 1.5rem; }
+    .author-info { display: flex; align-items: center; justify-content: center; gap: 0.75rem; }
+    .author-avatar { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary-pink); }
+    .carousel-nav-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; background: white; border-radius: 50%; border: 1px solid var(--border-color); box-shadow: var(--shadow-md); display: flex; align-items: center; justify-content: center; z-index: 5; }
+    .carousel-nav-btn.prev { left: 0px; }
+    .carousel-nav-btn.next { right: 0px; }
+    .carousel-dots { display: flex; justify-content: center; gap: 0.5rem; margin-top: 1.5rem; }
+    .carousel-dot { width: 10px; height: 10px; border-radius: var(--radius-full); background: rgba(59, 36, 24, 0.2); cursor: pointer; }
+    .carousel-dot.active { background: var(--primary-pink); width: 28px; }
+
+    .newsletter-banner { background: var(--primary-pink); color: white; border-radius: var(--radius-lg); padding: 3.5rem 2rem; text-align: center; margin: 4rem 0; box-shadow: var(--shadow-pink); }
+    .newsletter-form { display: flex; max-width: 480px; margin: 0 auto; gap: 0.5rem; background: white; padding: 0.4rem; border-radius: var(--radius-full); }
+    .newsletter-input { flex: 1; padding: 0.75rem 1.25rem; color: var(--text-espresso); border-radius: var(--radius-full); }
+    .newsletter-btn { background: var(--text-espresso); color: white; padding: 0.75rem 1.75rem; border-radius: var(--radius-full); font-weight: 600; }
+    .newsletter-success { display: none; background: rgba(255, 255, 255, 0.2); border-radius: var(--radius-md); padding: 1rem; max-width: 480px; margin: 1rem auto 0; font-weight: 600; }
+
+    .contact-section { padding: 5rem 0; }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 3.5rem; align-items: start; }
+    .contact-info-card, .contact-form-card { background: white; padding: 2.5rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
+    .contact-info-item { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.75rem; }
+    .contact-icon-box { width: 44px; height: 44px; border-radius: var(--radius-sm); background: var(--primary-pink-light); color: var(--primary-pink); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .form-group { margin-bottom: 1.25rem; }
+    .form-label { display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.4rem; }
+    .form-input, .form-textarea { width: 100%; padding: 0.85rem 1rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); background: var(--bg-cream); }
+    .form-error { color: #E63946; font-size: 0.8rem; margin-top: 0.25rem; display: none; }
+
+    /* Footer */
+    .footer { background: #2D1A10; color: #E2D2C8; padding: 4.5rem 0 2rem; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 3rem; margin-bottom: 3.5rem; }
+    .footer-logo { color: white; font-family: var(--font-display); font-size: 1.75rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
+    .footer-bottom { border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 2rem; text-align: center; font-size: 0.85rem; }
+
+    /* Cart Drawer */
+    .cart-overlay { position: fixed; inset: 0; background: rgba(59, 36, 24, 0.5); backdrop-filter: blur(4px); z-index: 1000; opacity: 0; pointer-events: none; transition: opacity var(--transition-base); }
+    .cart-overlay.open { opacity: 1; pointer-events: auto; }
+    .cart-drawer { position: fixed; top: 0; right: 0; bottom: 0; width: 100%; max-width: 440px; background: white; z-index: 1001; box-shadow: -8px 0 32px rgba(59, 36, 24, 0.15); display: flex; flex-direction: column; transform: translateX(100%); transition: transform var(--transition-bounce); }
+    .cart-drawer.open { transform: translateX(0); }
+    .cart-header { padding: 1.5rem; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; }
+    .close-btn { width: 36px; height: 36px; border-radius: 50%; background: var(--bg-cream); display: flex; align-items: center; justify-content: center; }
+    .cart-items-list { flex: 1; overflow-y: auto; padding: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem; }
+    .cart-item { display: flex; gap: 1rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--border-color); }
+    .cart-item-img { width: 72px; height: 72px; border-radius: var(--radius-sm); object-fit: cover; }
+    .qty-controls { display: flex; align-items: center; border: 1px solid var(--border-color); border-radius: var(--radius-full); padding: 2px 6px; }
+    .qty-btn { width: 24px; height: 24px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+    .cart-footer { padding: 1.5rem; border-top: 1px solid var(--border-color); background: var(--bg-cream); }
+    .promo-input-group { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+    .promo-input { flex: 1; background: white; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 0.6rem 0.85rem; font-size: 0.9rem; text-transform: uppercase; }
+
+    /* Modals */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(59, 36, 24, 0.6); backdrop-filter: blur(6px); z-index: 1100; opacity: 0; pointer-events: none; display: flex; align-items: center; justify-content: center; padding: 1.5rem; transition: opacity var(--transition-base); }
+    .modal-overlay.open { opacity: 1; pointer-events: auto; }
+    .modal-container { background: white; border-radius: var(--radius-lg); max-width: 650px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow-lg); position: relative; transform: scale(0.92); transition: transform var(--transition-bounce); }
+    .modal-overlay.open .modal-container { transform: scale(1); }
+    .modal-close-icon { position: absolute; top: 1.25rem; right: 1.25rem; z-index: 10; }
+    .qv-grid { display: grid; grid-template-columns: 1fr 1.1fr; }
+    .qv-image-box { background: var(--bg-cream); position: relative; min-height: 320px; }
+    .qv-image-box img { width: 100%; height: 100%; object-fit: cover; }
+    .qv-details { padding: 2.25rem 2rem; display: flex; flex-direction: column; }
+    .qv-options-row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .qv-option-chip { padding: 0.4rem 0.85rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.85rem; cursor: pointer; font-weight: 600; }
+    .qv-option-chip.active { border-color: var(--primary-pink); background: var(--primary-pink-light); color: var(--primary-pink); }
+    .checkout-modal-container { max-width: 800px; padding: 2.5rem; }
+    .checkout-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 2.5rem; }
+    .fulfillment-toggle { display: flex; gap: 0.5rem; background: var(--bg-cream); padding: 0.35rem; border-radius: var(--radius-full); margin-bottom: 1.5rem; }
+    .fulfillment-btn { flex: 1; padding: 0.6rem; border-radius: var(--radius-full); font-weight: 600; text-align: center; }
+    .fulfillment-btn.active { background: var(--primary-pink); color: white; }
+    .payment-methods { display: flex; gap: 0.75rem; margin-bottom: 1.5rem; }
+    .payment-option-card { flex: 1; padding: 1rem; border: 2px solid var(--border-color); border-radius: var(--radius-md); cursor: pointer; text-align: center; }
+    .payment-option-card.active { border-color: var(--primary-pink); background: var(--primary-pink-light); }
+    .order-ticket { background: var(--bg-cream); border: 2px dashed var(--secondary-caramel); border-radius: var(--radius-md); padding: 1.5rem; max-width: 400px; margin: 1.5rem auto; text-align: left; }
+
+    /* Auth & Admin Modals */
+    .auth-modal-container { max-width: 480px; padding: 2.5rem 2rem; }
+    .auth-tabs { display: flex; gap: 0.5rem; background: var(--bg-cream); padding: 0.3rem; border-radius: var(--radius-full); margin-bottom: 1.75rem; }
+    .auth-tab-btn { flex: 1; text-align: center; padding: 0.6rem 0.5rem; font-weight: 700; font-size: 0.9rem; border-radius: var(--radius-full); }
+    .auth-tab-btn.active { background: white; color: var(--primary-pink); box-shadow: var(--shadow-sm); }
+    .auth-tab-btn.admin-tab.active { background: var(--admin-navy); color: white; }
+    .demo-credentials-box { background: var(--caramel-light); border: 1px dashed var(--secondary-caramel); border-radius: var(--radius-md); padding: 0.85rem; margin-bottom: 1.25rem; font-size: 0.85rem; display: flex; align-items: center; justify-content: space-between; }
+    .admin-modal-container { max-width: 1100px; padding: 2.5rem; background: #F8F9FA; }
+    .admin-stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem; margin: 1.5rem 0 2rem; }
+    .admin-stat-card { background: white; border-radius: var(--radius-md); padding: 1.25rem; border: 1px solid var(--border-color); }
+    .admin-stat-card .stat-val { font-family: var(--font-display); font-size: 1.8rem; font-weight: 700; color: var(--text-espresso); }
+    .admin-section-tabs { display: flex; gap: 1rem; margin-bottom: 1.5rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; }
+    .admin-section-tab-btn { font-weight: 700; font-size: 1.05rem; padding: 0.5rem 1rem; border-radius: var(--radius-sm); color: var(--text-muted); }
+    .admin-section-tab-btn.active { background: white; color: var(--admin-navy); box-shadow: var(--shadow-sm); }
+    .admin-table-wrapper { background: white; border-radius: var(--radius-md); border: 1px solid var(--border-color); overflow-x: auto; margin-bottom: 1.5rem; }
+    .admin-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
+    .admin-table th, .admin-table td { padding: 1rem; border-bottom: 1px solid var(--border-color); }
+    .admin-table th { background: #F1E9E0; font-weight: 700; font-size: 0.85rem; }
+    .order-status-badge { display: inline-block; padding: 0.3rem 0.75rem; border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
+    .status-new { background: #E0E7FF; color: #3730A3; }
+    .status-baking { background: #FEF3C7; color: #92400E; }
+    .status-delivery { background: #E0F2FE; color: #075985; }
+    .status-completed { background: #DCFCE7; color: #166534; }
+
+    /* Site Info & Product Edit Modals */
+    .edit-modal-container { max-width: 720px; padding: 2.5rem; }
+    .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    /* Toasts & Back to Top */
+    .toast-container { position: fixed; bottom: 24px; left: 24px; z-index: 2000; display: flex; flex-direction: column; gap: 0.75rem; pointer-events: none; }
+    .toast { background: var(--text-espresso); color: white; padding: 0.85rem 1.35rem; border-radius: var(--radius-full); box-shadow: var(--shadow-lg); font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 0.65rem; pointer-events: auto; transform: translateY(20px); opacity: 0; transition: all var(--transition-bounce); }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast-icon { color: var(--primary-pink); }
+    .back-to-top { position: fixed; bottom: 24px; right: 24px; width: 48px; height: 48px; background: white; color: var(--text-espresso); border-radius: 50%; box-shadow: var(--shadow-md); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; z-index: 90; opacity: 0; visibility: hidden; }
+    .back-to-top.visible { opacity: 1; visibility: visible; }
+
+    @media (max-width: 992px) {
+      .hero-grid, .byo-container, .about-grid, .contact-grid, .checkout-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .hero-visual { order: -1; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .qv-grid { grid-template-columns: 1fr; }
+      .form-grid-2 { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hamburger-btn { display: flex; }
+      .mobile-menu { display: block; }
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ADMIN FLOATING LIVE TOOLBAR -->
+  <aside class="admin-top-bar" id="adminTopBar" aria-label="Admin Control Bar">
+    <div class="admin-bar-inner container">
+      <div style="display:flex; align-items:center; gap:0.6rem;">
+        <span class="admin-badge-pill">Admin Mode</span>
+        <span>You have store management permissions.</span>
+      </div>
+      <div class="admin-actions-group">
+        <button class="btn-admin-bar highlight" id="btnBarEditSite">
+          <span>✏️ Edit Website Info</span>
+        </button>
+        <button class="btn-admin-bar" id="btnBarOrdersConsole">
+          <span>🍩 Kitchen & Orders Console</span>
+        </button>
+        <button class="btn-admin-bar" id="btnBarSignOut" style="background:rgba(217, 4, 41, 0.4); border-color:#D90429;">
+          <span>Sign Out</span>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ANNOUNCEMENT BAR -->
+  <aside class="announcement-bar" role="region" aria-label="Special Offers">
+    <span id="siteAnnouncementText">✨ Free delivery on all orders over $30! Use code <strong>DONUT10</strong> for 10% off ✨</span>
+  </aside>
+
+  <!-- STICKY NAVBAR -->
+  <div class="navbar-sticky-wrapper" id="navbarWrapper">
+    <header class="navbar container">
+      <a href="#home" class="brand-logo" aria-label="DoughNut Home">
+        <svg class="brand-logo-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="50" cy="50" r="45" fill="#3B2418"/>
+          <path d="M50 8C73.196 8 92 26.804 92 50C92 73.196 73.196 92 50 92C26.804 92 8 73.196 8 50C8 26.804 26.804 8 50 8Z" fill="#F4A261"/>
+          <path d="M50 12C70.987 12 88 29.013 88 50C88 56.2 86.5 61.8 83 67C79 72.8 72 68 66 73C60 78 61 85 54 87C49 88.5 45 82 39 83C32 84.1 33 88 28 87C21 85.5 19 79 16 73C13.5 68 18 64 15 58C12 52 12 44 14 38C17 29 23 20 31 16C37 13 43 12 50 12Z" fill="#FF6FA3"/>
+          <circle cx="50" cy="50" r="18" fill="#FFF6EC"/>
+          <rect x="36" y="26" width="9" height="3" rx="1.5" transform="rotate(25 36 26)" fill="#FFF"/>
+          <rect x="62" y="30" width="8" height="3" rx="1.5" transform="rotate(-30 62 30)" fill="#D98E3F"/>
+          <rect x="68" y="58" width="9" height="3" rx="1.5" transform="rotate(45 68 58)" fill="#94DEC5"/>
+          <rect x="26" y="52" width="8" height="3" rx="1.5" transform="rotate(80 26 52)" fill="#FFF"/>
+          <rect x="42" y="72" width="8" height="3" rx="1.5" transform="rotate(-15 42 72)" fill="#FFF"/>
+        </svg>
+        <span>DoughNut</span>
+      </a>
+
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="#home" class="nav-link active">Home</a></li>
+          <li><a href="#menu" class="nav-link">Menu</a></li>
+          <li><a href="#byo-box" class="nav-link">Build-A-Box</a></li>
+          <li><a href="#about" class="nav-link">About</a></li>
+          <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="nav-user-btn" id="navAuthBtn" aria-label="Customer or Staff Account">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          <span id="navAuthLabel">Sign In</span>
+        </button>
+
+        <button class="nav-icon-btn" id="openCartBtn" aria-label="Open Cart Drawer">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+          <span class="cart-badge" id="cartCountBadge">0</span>
+        </button>
+
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle navigation menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+  </div>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <ul class="mobile-nav-links">
+      <li><a href="#home" class="mobile-link">Home</a></li>
+      <li><a href="#menu" class="mobile-link">Menu</a></li>
+      <li><a href="#byo-box" class="mobile-link">Build-A-Box</a></li>
+      <li><a href="#about" class="mobile-link">About</a></li>
+      <li><a href="#contact" class="mobile-link">Contact</a></li>
+      <li><a href="javascript:void(0)" class="mobile-link" id="mobileAuthLink">👤 My Account / Sign In</a></li>
+    </ul>
+  </div>
+
+  <main>
+    <!-- 1. HERO SECTION -->
+    <section class="hero-section" id="home">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <span class="badge-sub" id="siteHeroBadge">Handcrafted Daily with Love</span>
+          <h1 class="hero-headline" id="siteHeroHeadline">Fresh dough.<br><span class="highlight">Bold coffee.</span><br>Pure joy.</h1>
+          <p class="hero-subtext" id="siteHeroSubtext">Warm brioche donuts crafted from scratch each morning, glazed in vibrant flavors, and paired with artisanal small-batch espresso.</p>
+          
+          <div class="hero-buttons">
+            <a href="#menu" class="btn btn-primary">
+              <span>Order Now</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="#byo-box" class="btn btn-secondary">
+              <span>Custom Donut Box</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+            </a>
+          </div>
+
+          <div class="hero-perks">
+            <div class="hero-perk-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <span id="siteHeroPerk1">100% Organic Brioche</span>
+            </div>
+            <div class="hero-perk-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span id="siteHeroPerk2">Baked Every 3 Hours</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="hero-donut-stage">
+            <div class="hero-donut-blob"></div>
+            <svg class="floating-donut-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="100" cy="100" r="82" fill="#E8985E"/>
+              <circle cx="100" cy="100" r="80" fill="#F4A261"/>
+              <path d="M100 22C143.08 22 178 56.92 178 100C178 116 172 130 162 142C150 156 138 144 125 158C114 170 120 178 106 178C90 178 88 162 76 166C63 170 65 178 52 174C38 170 36 154 28 142C22 130 22 116 22 100C22 56.92 56.92 22 100 22Z" fill="#FF6FA3"/>
+              <path d="M48 42C62 30 80 24 100 24C108 24 116 25 124 28C110 32 80 40 62 60C54 69 50 82 48 94C42 80 42 60 48 42Z" fill="#FFA5C5" opacity="0.6"/>
+              <circle cx="100" cy="100" r="32" fill="#FFF6EC"/>
+              <rect x="68" y="52" width="14" height="5" rx="2.5" transform="rotate(35 68 52)" fill="#FFFFFF"/>
+              <rect x="115" y="45" width="15" height="5" rx="2.5" transform="rotate(-20 115 45)" fill="#94DEC5"/>
+              <rect x="135" y="75" width="14" height="5" rx="2.5" transform="rotate(65 135 75)" fill="#D98E3F"/>
+              <rect x="140" y="125" width="14" height="5" rx="2.5" transform="rotate(-40 140 125)" fill="#FFFFFF"/>
+              <rect x="55" y="115" width="14" height="5" rx="2.5" transform="rotate(80 55 115)" fill="#94DEC5"/>
+              <rect x="80" y="145" width="14" height="5" rx="2.5" transform="rotate(-15 80 145)" fill="#D98E3F"/>
+              <rect x="85" y="40" width="12" height="4.5" rx="2" transform="rotate(95 85 40)" fill="#3B2418"/>
+            </svg>
+
+            <div class="floating-chip chip-1">
+              <span>🍓</span>
+              <div>
+                <div>Best Seller</div>
+                <small style="color:var(--text-muted)">Strawberry Sparkle</small>
+              </div>
+            </div>
+
+            <div class="floating-chip chip-2">
+              <span>☕</span>
+              <div>
+                <div>Ethical Roast</div>
+                <small style="color:var(--text-muted)">Single Origin Espresso</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION DIVIDER -->
+    <div class="wavy-divider">
+      <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M0,0 C150,90 350,-40 500,50 C650,140 900,10 1200,60 L1200,120 L0,120 Z" fill="#FFFFFF"></path>
+      </svg>
+    </div>
+
+    <!-- 2. FEATURED / BEST SELLERS -->
+    <section class="section-light" id="featured">
+      <div class="container">
+        <div class="section-header">
+          <span class="badge-sub">Crowd Favorites</span>
+          <h2 class="section-title">This Week's Best Sellers</h2>
+          <p class="section-desc">Our most-loved donuts and house-roasted brews that keep our neighborhood smiling morning after morning.</p>
+        </div>
+
+        <div class="products-grid" id="featuredGrid"></div>
+      </div>
+    </section>
+
+    <!-- SECTION DIVIDER -->
+    <div class="wavy-divider flipped">
+      <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M0,0 C150,90 350,-40 500,50 C650,140 900,10 1200,60 L1200,120 L0,120 Z" fill="#FFFFFF"></path>
+      </svg>
+    </div>
+
+    <!-- 3. FULL MENU SECTION -->
+    <section class="container" style="padding: 4rem 1.5rem 5rem;" id="menu">
+      <div class="section-header">
+        <span class="badge-sub">Explore Everything</span>
+        <h2 class="section-title">Our Handcrafted Menu</h2>
+        <p class="section-desc">Pick from fluffy brioche rings, velvety coffees, or discounted combo boxes.</p>
+      </div>
+
+      <div class="menu-controls">
+        <div class="filter-tabs" role="tablist">
+          <button class="filter-btn active" data-category="all" role="tab">All Items</button>
+          <button class="filter-btn" data-category="donuts" role="tab">🍩 Donuts</button>
+          <button class="filter-btn" data-category="coffee" role="tab">☕ Coffee</button>
+          <button class="filter-btn" data-category="combos" role="tab">🎁 Combos & Boxes</button>
+        </div>
+
+        <div class="menu-search-sort-bar">
+          <div class="search-wrapper">
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <input type="text" id="menuSearchInput" class="search-input" placeholder="Search strawberry, espresso, box..." aria-label="Search Menu">
+          </div>
+
+          <div class="sort-wrapper">
+            <label for="menuSortSelect" style="font-size:0.85rem; font-weight:700; color:var(--text-muted)">SORT BY:</label>
+            <select id="menuSortSelect" aria-label="Sort products">
+              <option value="popular">Most Popular</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="products-grid" id="fullMenuGrid"></div>
+    </section>
+
+    <!-- 4. BUILD-YOUR-OWN BOX SECTION -->
+    <section class="byo-box-section" id="byo-box">
+      <div class="container">
+        <div class="section-header">
+          <span class="badge-sub">Custom Cravings</span>
+          <h2 class="section-title">Build-Your-Own Box</h2>
+          <p class="section-desc">Curate your ultimate party pack. Select your box size, tap flavors to fill each slot, and we'll box it fresh for you!</p>
+        </div>
+
+        <div class="byo-container">
+          <div class="byo-flavor-picker">
+            <h3>1. Choose Box Size</h3>
+            <div class="byo-size-selector">
+              <div class="byo-size-btn active" data-box-size="4" data-price="13.99">
+                <span class="size-title">4-Pack Box</span>
+                <span class="size-price">$13.99 <small>(Save $2)</small></span>
+              </div>
+              <div class="byo-size-btn" data-box-size="6" data-price="19.99">
+                <span class="size-title">6-Pack Box</span>
+                <span class="size-price">$19.99 <small>(Save $4)</small></span>
+              </div>
+            </div>
+
+            <h3>2. Pick Flavors to Add</h3>
+            <p style="font-size: 0.9rem; color:var(--text-muted); margin-bottom: 1rem;">Tap any flavor below to insert it into the next available slot.</p>
+            <div class="byo-flavors-grid" id="byoFlavorsGrid"></div>
+          </div>
+
+          <div class="byo-summary-card">
+            <h3 style="font-size:1.35rem; margin-bottom: 0.25rem;">Your Donut Box</h3>
+            <p style="font-size:0.9rem; color:var(--text-muted);" id="byoProgressText">Filled: 0 / 4</p>
+
+            <div class="box-slots-display slots-4" id="boxSlotsDisplay"></div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+              <span style="font-weight:700; font-size:1.1rem;">Box Total:</span>
+              <span style="font-family:var(--font-display); font-size:1.5rem; font-weight:700; color:var(--primary-pink);" id="byoPriceDisplay">$13.99</span>
+            </div>
+
+            <button class="btn btn-primary" id="addByoBoxBtn" style="width:100%;" disabled>
+              <span>Add Custom Box to Cart</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            </button>
+            <button class="btn btn-outline btn-sm" id="clearByoBoxBtn" style="width:100%; margin-top:0.75rem;">Clear All Slots</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. ABOUT BRAND STORY -->
+    <section class="about-section" id="about">
+      <div class="container about-grid">
+        <div class="about-image-wrapper">
+          <img src="https://images.unsplash.com/photo-1556911073-38141963c9e0?auto=format&fit=crop&w=800&q=80" alt="Bakers glazing donuts at DoughNut cafe counter" class="about-main-img" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1517256064527-09c73fc73e38?auto=format&fit=crop&w=800&q=80';">
+          <div class="about-floating-card">
+            <div class="big-stat" id="siteAboutStatNum">100%</div>
+            <p id="siteAboutStatLabel">Real churned butter & Madagascar bourbon vanilla beans in every single batch.</p>
+          </div>
+        </div>
+
+        <div>
+          <span class="badge-sub">Our Craft & Philosophy</span>
+          <h2 class="section-title" id="siteAboutTitle">Rooted in Joy, Baked from Scratch.</h2>
+          <p class="section-desc" id="siteAboutP1" style="margin-bottom: 1.25rem;">DoughNut began with a tiny kitchen mixer and a bold conviction: that donuts deserve the high culinary treatment of artisan pastry, paired with genuinely remarkable third-wave coffee.</p>
+          <p id="siteAboutP2" style="color:var(--text-muted); font-size:0.95rem; margin-bottom: 2rem;">We slow-proof our brioche dough for eighteen hours to produce that signature airy crumb, cloud-like texture, and subtle buttery tang. Every glaze is simmered from genuine fruit purées, Belgian chocolates, and organic citrus.</p>
+
+          <div class="about-features">
+            <div class="about-feat-item">
+              <div class="about-feat-icon">🌾</div>
+              <div class="about-feat-text">
+                <h4>Organic Flours</h4>
+                <p>Locally sourced unbleached grains.</p>
+              </div>
+            </div>
+            <div class="about-feat-item">
+              <div class="about-feat-icon">☕</div>
+              <div class="about-feat-text">
+                <h4>Direct-Trade Coffee</h4>
+                <p>Ethically roasted in micro-lots.</p>
+              </div>
+            </div>
+            <div class="about-feat-item">
+              <div class="about-feat-icon">🍓</div>
+              <div class="about-feat-text">
+                <h4>Real Fruit Glazes</h4>
+                <p>No artificial dyes or corn syrup.</p>
+              </div>
+            </div>
+            <div class="about-feat-item">
+              <div class="about-feat-icon">♻️</div>
+              <div class="about-feat-text">
+                <h4>Eco-Friendly Packs</h4>
+                <p>100% recyclable plant-based boxes.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. TESTIMONIALS CAROUSEL -->
+    <section class="testimonials-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="badge-sub">Customer Love</span>
+          <h2 class="section-title">What Our Regulars Say</h2>
+          <p class="section-desc">Real stories from donut connoisseurs and morning espresso devotees.</p>
+        </div>
+
+        <div class="carousel-container" aria-roledescription="carousel" aria-label="Customer Reviews">
+          <button class="carousel-nav-btn prev" id="carouselPrevBtn" aria-label="Previous Testimonial">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+
+          <div class="carousel-track" id="carouselTrack">
+            <div class="carousel-slide">
+              <div class="testimonial-card">
+                <div class="stars-row">★★★★★</div>
+                <p class="testimonial-quote">"The Boston Cream here redefined what a donut can be. The custard isn’t sickeningly sweet—it’s silken, rich, and tasting of real vanilla beans. Plus, their iced cold brew is elite."</p>
+                <div class="author-info">
+                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" alt="Maya Lin" class="author-avatar">
+                  <div class="author-details">
+                    <h4>Maya Lin</h4>
+                    <span>Design Lead & Donut Fanatic</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="carousel-slide">
+              <div class="testimonial-card">
+                <div class="stars-row">★★★★★</div>
+                <p class="testimonial-quote">"We ordered 5 custom boxes for our office product launch and there was literally a lineup around the breakroom. The Biscoff Crunch and Strawberry Sprinkle stole the entire show."</p>
+                <div class="author-info">
+                  <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80" alt="Marcus Vance" class="author-avatar">
+                  <div class="author-details">
+                    <h4>Marcus Vance</h4>
+                    <span>Startup Founder</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="carousel-slide">
+              <div class="testimonial-card">
+                <div class="stars-row">★★★★★</div>
+                <p class="testimonial-quote">"As a self-proclaimed coffee snob, their single-origin Americano is flawless. Smooth crema, balanced acidity, and pairing it with the Classic Glazed is my weekend ritual."</p>
+                <div class="author-info">
+                  <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=120&q=80" alt="Chloe Bennett" class="author-avatar">
+                  <div class="author-details">
+                    <h4>Chloe Bennett</h4>
+                    <span>Food & Travel Writer</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="carousel-slide">
+              <div class="testimonial-card">
+                <div class="stars-row">★★★★★</div>
+                <p class="testimonial-quote">"Fast delivery, still warm and fluffy upon arrival. The Maple Bacon donut has the perfect smoky-sweet balance. DoughNut is easily the crown jewel of our bakery scene."</p>
+                <div class="author-info">
+                  <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80" alt="David Sterling" class="author-avatar">
+                  <div class="author-details">
+                    <h4>David Sterling</h4>
+                    <span>Architect</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button class="carousel-nav-btn next" id="carouselNextBtn" aria-label="Next Testimonial">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+        </div>
+
+        <div class="carousel-dots" id="carouselDots">
+          <span class="carousel-dot active" data-index="0"></span>
+          <span class="carousel-dot" data-index="1"></span>
+          <span class="carousel-dot" data-index="2"></span>
+          <span class="carousel-dot" data-index="3"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. NEWSLETTER SECTION -->
+    <section class="container">
+      <div class="newsletter-banner">
+        <h3>Join the DoughNut Secret Club 🍩</h3>
+        <p>Get secret flavor drop alerts, early tasting invitations, and a free glazed donut voucher on your birthday.</p>
+        <form class="newsletter-form" id="newsletterForm" novalidate>
+          <input type="email" class="newsletter-input" id="newsletterEmail" placeholder="Enter your email address" required aria-label="Newsletter email">
+          <button type="submit" class="newsletter-btn">Claim Treat</button>
+        </form>
+        <div class="newsletter-success" id="newsletterSuccess">
+          🎉 Welcome to the sweet family! Check your inbox for your free donut treat!
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. CONTACT & HOURS SECTION -->
+    <section class="contact-section" id="contact">
+      <div class="container">
+        <div class="section-header">
+          <span class="badge-sub">Visit & Connect</span>
+          <h2 class="section-title">Drop by or Say Hello</h2>
+          <p class="section-desc">Have a catering request, question, or just craving fresh pastries? We’d love to hear from you.</p>
+        </div>
+
+        <div class="contact-grid">
+          <div class="contact-info-card">
+            <div class="contact-info-item">
+              <div class="contact-icon-box">📍</div>
+              <div>
+                <h4 style="font-size:1.1rem; margin-bottom:0.25rem;">Café & Bakehouse</h4>
+                <p id="siteContactAddress" style="color:var(--text-muted); font-size:0.95rem;">428 Sweet Blossom Blvd, Suite 101<br>Portland, OR 97204</p>
+              </div>
+            </div>
+
+            <div class="contact-info-item">
+              <div class="contact-icon-box">🕒</div>
+              <div>
+                <h4 style="font-size:1.1rem; margin-bottom:0.25rem;">Opening Hours</h4>
+                <p style="color:var(--text-muted); font-size:0.95rem;">
+                  <strong>Mon – Fri:</strong> <span id="siteHoursWeekday">6:30 AM – 6:00 PM</span><br>
+                  <strong>Sat – Sun:</strong> <span id="siteHoursWeekend">7:00 AM – 7:00 PM</span><br>
+                  <em>Fresh batches drop every 3 hours</em>
+                </p>
+              </div>
+            </div>
+
+            <div class="contact-info-item">
+              <div class="contact-icon-box">📞</div>
+              <div>
+                <h4 style="font-size:1.1rem; margin-bottom:0.25rem;">Phone & Inquiries</h4>
+                <p style="color:var(--text-muted); font-size:0.95rem;">
+                  Direct: <span id="siteContactPhone">(555) 368-4688</span><br>
+                  Email: <span id="siteContactEmail">hello@doughnut-bakery.com</span>
+                </p>
+              </div>
+            </div>
+
+            <div style="background:var(--bg-cream); border-radius:var(--radius-sm); border:1px dashed var(--border-color); padding:1.5rem; text-align:center;">
+              <span style="font-size:2rem; display:block; margin-bottom:0.5rem;">🗺️</span>
+              <strong style="font-size:0.9rem;" id="siteLocationLandmark">Corner of 4th & Blossom St.</strong>
+              <p style="font-size:0.8rem; color:var(--text-muted); margin-top:0.2rem;">Free customer parking in rear alleyway</p>
+            </div>
+          </div>
+
+          <div class="contact-form-card">
+            <form id="contactForm" novalidate>
+              <div class="form-group">
+                <label for="contactName" class="form-label">Your Name</label>
+                <input type="text" id="contactName" class="form-input" placeholder="e.g. Sarah Jenkins" required>
+                <span class="form-error" id="nameError">Please enter your name</span>
+              </div>
+
+              <div class="form-group">
+                <label for="contactEmail" class="form-label">Email Address</label>
+                <input type="email" id="contactEmail" class="form-input" placeholder="sarah@example.com" required>
+                <span class="form-error" id="emailError">Please enter a valid email address</span>
+              </div>
+
+              <div class="form-group">
+                <label for="contactMessage" class="form-label">Message or Catering Note</label>
+                <textarea id="contactMessage" rows="4" class="form-textarea" placeholder="Tell us how we can help..." required></textarea>
+                <span class="form-error" id="messageError">Please enter your message</span>
+              </div>
+
+              <button type="submit" class="btn btn-primary" style="width:100%;">
+                <span>Send Message</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">
+            <svg class="brand-logo-icon" viewBox="0 0 100 100" fill="none" width="32" height="32">
+              <circle cx="50" cy="50" r="45" fill="#F4A261"/>
+              <path d="M50 12C70.987 12 88 29.013 88 50C88 56.2 86.5 61.8 83 67C79 72.8 72 68 66 73C60 78 61 85 54 87C49 88.5 45 82 39 83C32 84.1 33 88 28 87C21 85.5 19 79 16 73C13.5 68 18 64 15 58C12 52 12 44 14 38C17 29 23 20 31 16C37 13 43 12 50 12Z" fill="#FF6FA3"/>
+              <circle cx="50" cy="50" r="18" fill="#FFF6EC"/>
+            </svg>
+            <span>DoughNut</span>
+          </div>
+          <p class="footer-desc">Crafting moments of pure everyday joy with small-batch artisanal brioche donuts and ethically traded espresso.</p>
+        </div>
+
+        <div>
+          <h4 style="color:white; margin-bottom:1rem;">Menu Highlights</h4>
+          <ul class="footer-links">
+            <li><a href="#menu">Classic Glazed</a></li>
+            <li><a href="#menu">Strawberry Sparkle</a></li>
+            <li><a href="#menu">Boston Cream</a></li>
+            <li><a href="#byo-box">Build-Your-Own Box</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 style="color:white; margin-bottom:1rem;">Bakery & Brand</h4>
+          <ul class="footer-links">
+            <li><a href="#about">Our Story</a></li>
+            <li><a href="#about">Ingredient Sourcing</a></li>
+            <li><a href="#contact">Catering & Events</a></li>
+            <li><a href="javascript:void(0)" onclick="openAuthModal('admin')">Staff / Admin Login</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 style="color:white; margin-bottom:1rem;">Bakery Hours</h4>
+          <p style="font-size:0.9rem; line-height:1.7;">
+            Monday - Friday: 6:30am - 6pm<br>
+            Saturday - Sunday: 7am - 7pm<br>
+            <span style="color:var(--primary-pink); font-weight:600;">Glaze Hotline: (555) 368-4688</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 DoughNut Bakery & Coffee Bar. All rights reserved. Made with sugar, flour & warmth.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       CART SLIDE-IN DRAWER
+       ========================================================================== -->
+  <div class="cart-overlay" id="cartOverlay" aria-hidden="true"></div>
+  <aside class="cart-drawer" id="cartDrawer" role="dialog" aria-modal="true" aria-label="Shopping Cart">
+    <div class="cart-header">
+      <h3 style="font-size:1.35rem; display:flex; align-items:center; gap:0.5rem;">
+        <span>Your Bag</span>
+        <span style="font-size:0.95rem; color:var(--text-muted);" id="drawerItemCount">(0 items)</span>
+      </h3>
+      <button class="close-btn" id="closeCartBtn" aria-label="Close cart drawer">✕</button>
+    </div>
+
+    <div class="cart-items-list" id="cartItemsList"></div>
+
+    <div class="cart-footer">
+      <div class="promo-input-group">
+        <input type="text" id="promoInput" class="promo-input" placeholder="Promo code (e.g. DONUT10)">
+        <button class="btn btn-outline btn-sm" id="applyPromoBtn">Apply</button>
+      </div>
+      <div id="promoMessage" style="font-size:0.8rem; margin-bottom:0.75rem; display:none;"></div>
+
+      <div style="font-size:0.95rem; margin-bottom:1.25rem;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:0.25rem;">
+          <span style="color:var(--text-muted);">Subtotal</span>
+          <span style="font-weight:600;" id="cartSubtotal">$0.00</span>
+        </div>
+        <div id="cartDiscountRow" style="display:none; justify-content:space-between; color:#2D6A4F; margin-bottom:0.25rem;">
+          <span>Discount</span>
+          <span style="font-weight:600;" id="cartDiscount">-$0.00</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:0.25rem;">
+          <span style="color:var(--text-muted);">Estimated Tax</span>
+          <span style="font-weight:600;" id="cartTax">$0.00</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-family:var(--font-display); font-weight:700; font-size:1.25rem; border-top:1px dashed var(--border-color); padding-top:0.75rem;">
+          <span>Total</span>
+          <span id="cartTotal">$0.00</span>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" id="openCheckoutBtn" style="width:100%;" disabled>Proceed to Checkout</button>
+    </div>
+  </aside>
+
+  <!-- ==========================================================================
+       PRODUCT QUICK VIEW MODAL
+       ========================================================================== -->
+  <div class="modal-overlay" id="quickViewModal" aria-hidden="true">
+    <div class="modal-container" role="dialog" aria-modal="true" aria-label="Product Quick View">
+      <button class="close-btn modal-close-icon" id="closeQvBtn">✕</button>
+      <div class="qv-grid">
+        <div class="qv-image-box">
+          <img src="" alt="" id="qvImage">
+        </div>
+        <div class="qv-details">
+          <span class="badge-sub" id="qvCategory" style="align-self:flex-start;">Donuts</span>
+          <h2 id="qvTitle" style="font-size:1.6rem; margin-bottom:0.5rem;">Product Title</h2>
+          <p id="qvPrice" style="font-family:var(--font-display); font-size:1.4rem; font-weight:700; color:var(--primary-pink); margin-bottom:0.75rem;">$0.00</p>
+          <p id="qvDesc" style="color:var(--text-muted); font-size:0.95rem; margin-bottom:1.25rem;">Description here...</p>
+
+          <div id="qvOptionsContainer"></div>
+
+          <div style="display:flex; align-items:center; gap:1rem; margin: 1.5rem 0;">
+            <span style="font-weight:700; font-size:0.9rem;">Quantity:</span>
+            <div class="qty-controls" style="padding:4px 8px;">
+              <button class="qty-btn" id="qvQtyMinus">-</button>
+              <span id="qvQtyDisplay" style="min-width:32px; text-align:center; font-weight:600;">1</span>
+              <button class="qty-btn" id="qvQtyPlus">+</button>
+            </div>
+          </div>
+
+          <button class="btn btn-primary" id="qvAddToCartBtn" style="width:100%; margin-top:auto;">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       CHECKOUT MODAL
+       ========================================================================== -->
+  <div class="modal-overlay" id="checkoutModal" aria-hidden="true">
+    <div class="modal-container checkout-modal-container" role="dialog" aria-modal="true" aria-label="Complete Order">
+      <button class="close-btn modal-close-icon" id="closeCheckoutBtn">✕</button>
+
+      <div id="checkoutFormView">
+        <h2 style="font-size:1.75rem; margin-bottom:0.25rem;">Checkout</h2>
+        <p style="color:var(--text-muted); font-size:0.95rem; margin-bottom:1.5rem;">Review your items and enter details for fresh preparation.</p>
+
+        <div class="fulfillment-toggle">
+          <button class="fulfillment-btn active" id="modeDeliveryBtn" type="button">🚚 Doorstep Delivery</button>
+          <button class="fulfillment-btn" id="modePickupBtn" type="button">☕ Bakery Pickup</button>
+        </div>
+
+        <div class="checkout-grid">
+          <form id="orderForm" novalidate>
+            <div class="form-group">
+              <label for="orderName" class="form-label">Full Name</label>
+              <input type="text" id="orderName" class="form-input" placeholder="Alex Morgan" required>
+              <span class="form-error" id="orderNameErr">Please enter your name</span>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem;">
+              <div class="form-group">
+                <label for="orderEmail" class="form-label">Email</label>
+                <input type="email" id="orderEmail" class="form-input" placeholder="alex@gmail.com" required>
+                <span class="form-error" id="orderEmailErr">Valid email required</span>
+              </div>
+              <div class="form-group">
+                <label for="orderPhone" class="form-label">Phone</label>
+                <input type="tel" id="orderPhone" class="form-input" placeholder="(555) 000-0000" required>
+                <span class="form-error" id="orderPhoneErr">Phone required</span>
+              </div>
+            </div>
+
+            <div class="form-group" id="deliveryAddressGroup">
+              <label for="orderAddress" class="form-label">Delivery Street Address</label>
+              <input type="text" id="orderAddress" class="form-input" placeholder="742 Evergreen Terrace, Apt 4" required>
+              <span class="form-error" id="orderAddressErr">Address required for delivery</span>
+            </div>
+
+            <label class="form-label">Payment Method</label>
+            <div class="payment-methods">
+              <div class="payment-option-card active" data-method="card">💳 Credit / Debit</div>
+              <div class="payment-option-card" data-method="cod">💵 Pay on Delivery</div>
+            </div>
+
+            <div id="cardInputsBox" style="display:flex; flex-direction:column; gap:0.75rem; margin-top:1rem; padding:1rem; background:var(--bg-cream); border-radius:var(--radius-sm);">
+              <input type="text" class="form-input" placeholder="Card Number (4242 •••• •••• 4242)" maxlength="19" value="4242 4242 4242 4242">
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+                <input type="text" class="form-input" placeholder="MM/YY" maxlength="5" value="12/28">
+                <input type="text" class="form-input" placeholder="CVC" maxlength="4" value="888">
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width:100%; margin-top:1.5rem;" id="submitOrderBtn">
+              <span>Place Order</span>
+              <span id="checkoutSubmitTotal">$0.00</span>
+            </button>
+          </form>
+
+          <div style="background:var(--bg-cream); border-radius:var(--radius-md); padding:1.5rem; height:fit-content; border:1px solid var(--border-color);">
+            <h4 style="margin-bottom:1rem; font-size:1.1rem;">Order Breakdown</h4>
+            <div id="checkoutSummaryItems" style="max-height:200px; overflow-y:auto; margin-bottom:1rem; font-size:0.9rem;"></div>
+            
+            <div style="border-top:1px dashed var(--border-color); padding-top:0.75rem; font-size:0.9rem;">
+              <div style="display:flex; justify-content:space-between; margin-bottom:0.25rem;">
+                <span>Subtotal:</span>
+                <span id="coSubtotal">$0.00</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; margin-bottom:0.25rem;" id="coDiscountRow">
+                <span style="color:#2D6A4F;">Promo Discount:</span>
+                <span style="color:#2D6A4F;" id="coDiscount">-$0.00</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; margin-bottom:0.25rem;">
+                <span>Fulfillment:</span>
+                <span id="coDeliveryFee">$3.50</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; margin-bottom:0.25rem;">
+                <span>Tax:</span>
+                <span id="coTax">$0.00</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; font-weight:700; font-size:1.15rem; margin-top:0.5rem; border-top:1px solid var(--border-color); padding-top:0.5rem;">
+                <span>Total:</span>
+                <span id="coTotal">$0.00</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="confirmationView" style="display:none; text-align:center; padding:3rem 1.5rem;">
+        <div style="font-size:4.5rem; margin-bottom:1rem;">🍩</div>
+        <span class="badge-sub">Order Confirmed!</span>
+        <h2 style="font-size:2rem; margin:0.5rem 0;">Baking Fresh In The Kitchen!</h2>
+        <p style="color:var(--text-muted); max-width:440px; margin:0 auto 1.5rem;">Thank you for your order. Our artisans are already preparing your warm pastries and fresh espresso.</p>
+
+        <div class="order-ticket">
+          <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem;">
+            <strong>Order Reference:</strong>
+            <span id="confirmedOrderId" style="font-family:monospace; font-weight:700; color:var(--primary-pink);">#DN-9842</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem;">
+            <strong>Estimated Ready:</strong>
+            <span id="confirmedEstTime" style="font-weight:600;">20 - 30 minutes</span>
+          </div>
+          <div style="display:flex; justify-content:space-between;">
+            <strong>Fulfillment:</strong>
+            <span id="confirmedFulfillment">Doorstep Delivery</span>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" id="continueShoppingBtn">Continue Exploring Menu</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       LOGIN & REGISTRATION MODAL
+       ========================================================================== -->
+  <div class="modal-overlay" id="authModal" aria-hidden="true">
+    <div class="modal-container auth-modal-container" role="dialog" aria-modal="true" aria-label="Sign In or Register">
+      <button class="close-btn modal-close-icon" id="closeAuthBtn">✕</button>
+
+      <div class="auth-tabs">
+        <button class="auth-tab-btn active" id="tabCustomerLogin">Customer Sign In</button>
+        <button class="auth-tab-btn" id="tabCustomerRegister">New Member</button>
+        <button class="auth-tab-btn admin-tab" id="tabAdminLogin">Staff / Admin</button>
+      </div>
+
+      <!-- Customer Login -->
+      <div id="customerLoginView">
+        <h2 style="font-size:1.6rem; margin-bottom:0.25rem;">Welcome Back! 🍩</h2>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:1.25rem;">Sign in to earn points and track fresh orders.</p>
+
+        <div class="demo-credentials-box">
+          <div>
+            <strong>Demo Customer:</strong><br>
+            <span style="color:var(--text-muted)">customer@doughnut.com / donut123</span>
+          </div>
+          <button type="button" class="btn btn-secondary btn-sm" id="fillDemoCustomerBtn">Auto-Fill</button>
+        </div>
+
+        <form id="customerLoginForm" novalidate>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" id="custEmail" class="form-input" placeholder="sarah@example.com" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <input type="password" id="custPassword" class="form-input" placeholder="••••••••" required>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%; margin-top:0.5rem;">Sign In</button>
+        </form>
+      </div>
+
+      <!-- Customer Register -->
+      <div id="customerRegisterView" style="display:none;">
+        <h2 style="font-size:1.6rem; margin-bottom:0.25rem;">Join the Sweet Club 🎉</h2>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:1.25rem;">Earn bonus sprinkles on your first order.</p>
+
+        <form id="customerRegisterForm" novalidate>
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input type="text" id="regName" class="form-input" placeholder="Maya Reynolds" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" id="regEmail" class="form-input" placeholder="maya@example.com" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Create Password</label>
+            <input type="password" id="regPassword" class="form-input" placeholder="At least 6 characters" minlength="6" required>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%; margin-top:0.5rem;">Create Account</button>
+        </form>
+      </div>
+
+      <!-- Admin Login -->
+      <div id="adminLoginView" style="display:none;">
+        <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.25rem;">
+          <span style="font-size:1.5rem;">🛡️</span>
+          <h2 style="font-size:1.6rem; color:var(--admin-navy);">Staff Admin Portal</h2>
+        </div>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:1.25rem;">Full access to live site editing, menu items & orders.</p>
+
+        <div class="demo-credentials-box" style="background:#EBF2FA; border-color:#90B4CE;">
+          <div>
+            <strong>Demo Manager Credentials:</strong><br>
+            <span style="color:var(--text-muted)">admin@doughnut.com / admin123</span>
+          </div>
+          <button type="button" class="btn btn-admin btn-sm" id="fillDemoAdminBtn">Auto-Fill</button>
+        </div>
+
+        <form id="adminLoginForm" novalidate>
+          <div class="form-group">
+            <label class="form-label">Admin Email</label>
+            <input type="email" id="adminEmail" class="form-input" placeholder="admin@doughnut.com" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Admin Security Key</label>
+            <input type="password" id="adminPassword" class="form-input" placeholder="••••••••" required>
+          </div>
+          <button type="submit" class="btn btn-admin" style="width:100%; margin-top:0.5rem;">Access Management Console</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       CUSTOMER ACCOUNT MODAL
+       ========================================================================== -->
+  <div class="modal-overlay" id="accountModal" aria-hidden="true">
+    <div class="modal-container" style="max-width:650px; padding:2.5rem;" role="dialog" aria-modal="true" aria-label="Customer Account">
+      <button class="close-btn modal-close-icon" id="closeAccountBtn">✕</button>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+        <div>
+          <span class="badge-sub">Customer Profile</span>
+          <h2 id="accUserName" style="font-size:1.8rem;">Welcome, Sarah!</h2>
+          <p id="accUserEmail" style="color:var(--text-muted); font-size:0.9rem;">customer@doughnut.com</p>
+        </div>
+        <button class="btn btn-outline btn-sm" id="custLogoutBtn" style="color:#D90429; border-color:#D90429;">Sign Out</button>
+      </div>
+
+      <div style="background:linear-gradient(135deg, var(--primary-pink), var(--secondary-caramel)); color:white; border-radius:var(--radius-md); padding:1.5rem; margin-bottom:2rem;">
+        <span style="text-transform:uppercase; font-size:0.75rem; letter-spacing:0.1em; opacity:0.9;">Sprinkle Club Loyalty</span>
+        <h3 style="font-size:1.6rem; color:white; margin:0.25rem 0;">180 Sweet Points</h3>
+        <p style="font-size:0.85rem; opacity:0.95;">Only 20 points until your next free glazed donut!</p>
+      </div>
+
+      <h3 style="font-size:1.3rem; margin-bottom:1rem;">Your Past & Live Orders</h3>
+      <div id="custOrdersList" style="display:flex; flex-direction:column; gap:0.85rem; max-height:280px; overflow-y:auto;"></div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       ADMIN LIVE ORDERS & INVENTORY MODAL
+       ========================================================================== -->
+  <div class="modal-overlay" id="adminModal" aria-hidden="true">
+    <div class="modal-container admin-modal-container" role="dialog" aria-modal="true" aria-label="Store Management Portal">
+      <button class="close-btn modal-close-icon" id="closeAdminBtn">✕</button>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1rem;">
+        <div>
+          <div style="display:flex; align-items:center; gap:0.5rem;">
+            <span style="background:var(--admin-navy); color:white; font-size:0.75rem; font-weight:700; padding:0.2rem 0.6rem; border-radius:var(--radius-full);">STORE MANAGER</span>
+            <span style="color:var(--text-muted); font-size:0.85rem;">DoughNut Bakehouse Operations</span>
+          </div>
+          <h2 style="font-size:2rem; margin-top:0.25rem;">Live Kitchen & Operations Control</h2>
+        </div>
+        <div style="display:flex; gap:0.5rem;">
+          <button class="btn btn-primary btn-sm" id="btnAdminOpenSiteEditor">✏️ Edit Website Copy</button>
+          <button class="btn btn-outline btn-sm" id="adminLogoutBtn" style="color:#D90429; border-color:#D90429;">Exit Admin</button>
+        </div>
+      </div>
+
+      <!-- Stats Overview -->
+      <div class="admin-stats-grid">
+        <div class="admin-stat-card">
+          <small style="color:var(--text-muted); font-weight:700;">TODAY'S REVENUE</small>
+          <div class="stat-val" id="statRevenue" style="color:#2D6A4F;">$542.80</div>
+        </div>
+        <div class="admin-stat-card">
+          <small style="color:var(--text-muted); font-weight:700;">TOTAL TICKETS</small>
+          <div class="stat-val" id="statTotalOrders">16</div>
+        </div>
+        <div class="admin-stat-card">
+          <small style="color:var(--text-muted); font-weight:700;">ACTIVE IN KITCHEN</small>
+          <div class="stat-val" id="statActiveOrders" style="color:var(--primary-pink);">3</div>
+        </div>
+        <div class="admin-stat-card">
+          <small style="color:var(--text-muted); font-weight:700;">TOP FLAVOR</small>
+          <div class="stat-val" style="font-size:1.25rem; margin-top:0.5rem;">Strawberry Sparkle</div>
+        </div>
+      </div>
+
+      <div class="admin-section-tabs">
+        <button class="admin-section-tab-btn active" id="btnAdminViewOrders">📦 Live Kitchen Tickets</button>
+        <button class="admin-section-tab-btn" id="btnAdminViewMenu">🍩 Store Inventory & Add Items</button>
+      </div>
+
+      <!-- Tab 1: Live Orders -->
+      <div id="adminOrdersSection">
+        <div class="admin-table-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Order Ref</th>
+                <th>Customer</th>
+                <th>Items Ordered</th>
+                <th>Type</th>
+                <th>Total</th>
+                <th>Kitchen Status</th>
+              </tr>
+            </thead>
+            <tbody id="adminOrdersTbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tab 2: Inventory -->
+      <div id="adminMenuSection" style="display:none;">
+        <div style="background:white; border-radius:var(--radius-md); padding:1.5rem; border:1px solid var(--border-color); margin-bottom:1.5rem;">
+          <h3 style="font-size:1.2rem; margin-bottom:1rem;">Add New Product to Live Storefront</h3>
+          <form id="adminAddProductForm" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1rem;">
+            <input type="text" id="newProdName" class="form-input" placeholder="Product Name (e.g. Pistachio Silk)" required>
+            <select id="newProdCategory" class="form-input" required>
+              <option value="donuts">Donuts</option>
+              <option value="coffee">Coffee</option>
+              <option value="combos">Combos & Boxes</option>
+            </select>
+            <input type="number" id="newProdPrice" class="form-input" step="0.05" placeholder="Price (e.g. 3.95)" required>
+            <input type="text" id="newProdTag" class="form-input" placeholder="Tag (e.g. New, Vegan, Chef Pick)">
+            <input type="url" id="newProdImage" class="form-input" placeholder="Image URL (Unsplash)" value="https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80">
+            <input type="text" id="newProdEmoji" class="form-input" placeholder="Fallback Emoji" value="🍩">
+            <div style="grid-column:1 / -1;">
+              <input type="text" id="newProdDesc" class="form-input" placeholder="Short description..." required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm" style="grid-column:1 / -1; justify-self:start;">+ Add Product</button>
+          </form>
+        </div>
+
+        <h3 style="font-size:1.2rem; margin-bottom:1rem;">Current Storefront Inventory</h3>
+        <div class="admin-table-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Availability</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="adminInventoryTbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       ADMIN: EDIT WEBSITE INFORMATION MODAL
+       ========================================================================== -->
+  <div class="modal-overlay" id="siteInfoModal" aria-hidden="true">
+    <div class="modal-container edit-modal-container" role="dialog" aria-modal="true" aria-label="Edit Website Information">
+      <button class="close-btn modal-close-icon" id="closeSiteInfoBtn">✕</button>
+
+      <span class="badge-sub">Live Content CMS</span>
+      <h2 style="font-size:1.8rem; margin-bottom:0.25rem;">Edit Website Information & Copy</h2>
+      <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:1.5rem;">Update headlines, announcements, store operating hours, and location in real time.</p>
+
+      <form id="siteInfoForm">
+        <h3 style="font-size:1.15rem; margin-bottom:0.75rem; border-bottom:1px solid var(--border-color); padding-bottom:0.4rem;">1. Announcement Bar & Promo</h3>
+        <div class="form-group">
+          <label class="form-label">Top Banner Announcement Text</label>
+          <input type="text" id="editAnnouncementText" class="form-input" required>
+        </div>
+
+        <h3 style="font-size:1.15rem; margin:1.5rem 0 0.75rem; border-bottom:1px solid var(--border-color); padding-bottom:0.4rem;">2. Hero Section</h3>
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">Hero Badge Subtitle</label>
+            <input type="text" id="editHeroBadge" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Perk Highlight 1</label>
+            <input type="text" id="editHeroPerk1" class="form-input" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Hero Main Headline (HTML allowed, e.g. &lt;span class="highlight"&gt;Bold coffee.&lt;/span&gt;)</label>
+          <input type="text" id="editHeroHeadline" class="form-input" required>
+        </div>
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">Hero Subtext Description</label>
+            <textarea id="editHeroSubtext" class="form-textarea" rows="2" required></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Perk Highlight 2</label>
+            <input type="text" id="editHeroPerk2" class="form-input" required>
+          </div>
+        </div>
+
+        <h3 style="font-size:1.15rem; margin:1.5rem 0 0.75rem; border-bottom:1px solid var(--border-color); padding-bottom:0.4rem;">3. About Section & Brand Story</h3>
+        <div class="form-group">
+          <label class="form-label">Brand Story Heading</label>
+          <input type="text" id="editAboutTitle" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Story Paragraph 1</label>
+          <textarea id="editAboutP1" class="form-textarea" rows="2" required></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Story Paragraph 2</label>
+          <textarea id="editAboutP2" class="form-textarea" rows="2" required></textarea>
+        </div>
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">Feature Stat Number</label>
+            <input type="text" id="editAboutStatNum" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Feature Stat Caption</label>
+            <input type="text" id="editAboutStatLabel" class="form-input" required>
+          </div>
+        </div>
+
+        <h3 style="font-size:1.15rem; margin:1.5rem 0 0.75rem; border-bottom:1px solid var(--border-color); padding-bottom:0.4rem;">4. Location & Operating Hours</h3>
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">Bakery Street Address</label>
+            <input type="text" id="editContactAddress" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Landmark / Parking Note</label>
+            <input type="text" id="editLocationLandmark" class="form-input" required>
+          </div>
+        </div>
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">Monday - Friday Hours</label>
+            <input type="text" id="editHoursWeekday" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Saturday - Sunday Hours</label>
+            <input type="text" id="editHoursWeekend" class="form-input" required>
+          </div>
+        </div>
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">Phone Number</label>
+            <input type="text" id="editContactPhone" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" id="editContactEmail" class="form-input" required>
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:2rem; padding-top:1rem; border-top:1px solid var(--border-color);">
+          <button type="button" class="btn btn-outline btn-sm" id="btnResetSiteDefaults" style="color:#D90429; border-color:#D90429;">Reset to Defaults</button>
+          <div style="display:flex; gap:0.75rem;">
+            <button type="button" class="btn btn-outline btn-sm" id="btnCancelSiteInfo">Cancel</button>
+            <button type="submit" class="btn btn-primary btn-sm">💾 Save Website Updates</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       ADMIN: EDIT INDIVIDUAL PRODUCT MODAL
+       ========================================================================== -->
+  <div class="modal-overlay" id="productEditModal" aria-hidden="true">
+    <div class="modal-container edit-modal-container" style="max-width:580px;" role="dialog" aria-modal="true" aria-label="Edit Product">
+      <button class="close-btn modal-close-icon" id="closeProdEditBtn">✕</button>
+
+      <span class="badge-sub">Store Catalog</span>
+      <h2 style="font-size:1.8rem; margin-bottom:0.25rem;" id="editProdModalHeading">Edit Product Details</h2>
+      <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:1.5rem;">Changes take effect immediately on cards and cart calculations.</p>
+
+      <form id="productEditForm">
+        <input type="hidden" id="editProdId">
+
+        <div class="form-group">
+          <label class="form-label">Product Name</label>
+          <input type="text" id="editProdName" class="form-input" required>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">Category</label>
+            <select id="editProdCategory" class="form-input" required>
+              <option value="donuts">Donuts</option>
+              <option value="coffee">Coffee</option>
+              <option value="combos">Combos & Boxes</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Price ($)</label>
+            <input type="number" id="editProdPrice" class="form-input" step="0.05" required>
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">Badge Tag (e.g. Bestseller, Vegan)</label>
+            <input type="text" id="editProdTag" class="form-input">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Fallback Emoji</label>
+            <input type="text" id="editProdEmoji" class="form-input" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Image URL (Unsplash or web link)</label>
+          <input type="url" id="editProdImage" class="form-input" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea id="editProdDesc" class="form-textarea" rows="3" required></textarea>
+        </div>
+
+        <div class="form-group" style="display:flex; align-items:center; gap:0.75rem; background:var(--bg-cream); padding:0.85rem; border-radius:var(--radius-sm);">
+          <input type="checkbox" id="editProdInStock" style="width:20px; height:20px; cursor:pointer;">
+          <label for="editProdInStock" style="cursor:pointer; font-weight:600;">Product is Currently In Stock & Available for Order</label>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1.5rem; padding-top:1rem; border-top:1px solid var(--border-color);">
+          <button type="button" class="btn btn-outline btn-sm" id="btnDeleteProduct" style="color:#D90429; border-color:#D90429;">🗑️ Delete Item</button>
+          <div style="display:flex; gap:0.5rem;">
+            <button type="button" class="btn btn-outline btn-sm" id="btnCancelProdEdit">Cancel</button>
+            <button type="submit" class="btn btn-primary btn-sm">Save Changes</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATIONS & BACK TO TOP -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+  <button class="back-to-top" id="backToTopBtn" aria-label="Back to top">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
+  </button>
+
+  <!-- ==========================================================================
+       VANILLA JAVASCRIPT LOGIC
+       ========================================================================== -->
+  <script>
+    const CONFIG = {
+      CURRENCY: '$',
+      TAX_RATE: 0.08,
+      DELIVERY_FEE: 3.50,
+      FREE_DELIVERY_THRESHOLD: 30.00,
+      VALID_PROMOS: {
+        'DONUT10': 0.10,
+        'SWEET20': 0.20,
+        'YUMMY': 0.15
+      }
+    };
+
+    /**
+     * DEFAULT WEBSITE COPY (Editable by Admin)
+     */
+    const DEFAULT_SITE_CONTENT = {
+      announcementText: "✨ Free delivery on all orders over $30! Use code <strong>DONUT10</strong> for 10% off ✨",
+      heroBadge: "Handcrafted Daily with Love",
+      heroHeadline: "Fresh dough.<br><span class=\"highlight\">Bold coffee.</span><br>Pure joy.",
+      heroSubtext: "Warm brioche donuts crafted from scratch each morning, glazed in vibrant flavors, and paired with artisanal small-batch espresso.",
+      heroPerk1: "100% Organic Brioche",
+      heroPerk2: "Baked Every 3 Hours",
+      aboutTitle: "Rooted in Joy, Baked from Scratch.",
+      aboutP1: "DoughNut began with a tiny kitchen mixer and a bold conviction: that donuts deserve the high culinary treatment of artisan pastry, paired with genuinely remarkable third-wave coffee.",
+      aboutP2: "We slow-proof our brioche dough for eighteen hours to produce that signature airy crumb, cloud-like texture, and subtle buttery tang. Every glaze is simmered from genuine fruit purées, Belgian chocolates, and organic citrus.",
+      aboutStatNum: "100%",
+      aboutStatLabel: "Real churned butter & Madagascar bourbon vanilla beans in every single batch.",
+      contactAddress: "428 Sweet Blossom Blvd, Suite 101, Portland, OR 97204",
+      hoursWeekday: "6:30 AM – 6:00 PM",
+      hoursWeekend: "7:00 AM – 7:00 PM",
+      contactPhone: "(555) 368-4688",
+      contactEmail: "hello@doughnut-bakery.com",
+      locationLandmark: "Corner of 4th & Blossom St."
+    };
+
+    let siteContent = { ...DEFAULT_SITE_CONTENT };
+
+    /**
+     * DEFAULT 18 PRODUCTS
+     */
+    const DEFAULT_PRODUCTS = [
+      { id: 'donut-1', name: 'Classic Glazed', category: 'donuts', price: 2.95, rating: 4.9, reviewsCount: 142, tag: 'Bestseller', tagClass: 'bestseller', image: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80', emoji: '🍩', desc: 'Our 18-hour slow-fermented signature brioche, dipped warm in translucent Madagascar vanilla bean glaze.', featured: true, inStock: true, optionsLabel: 'Pack Quantity', options: [{ name: 'Single Donut', priceDelta: 0 }, { name: 'Box of 4', priceDelta: 8.50 }, { name: 'Box of 6', priceDelta: 13.00 }] },
+      { id: 'donut-2', name: 'Strawberry Sparkle', category: 'donuts', price: 3.65, rating: 4.95, reviewsCount: 189, tag: 'Bestseller', tagClass: 'bestseller', image: 'https://images.unsplash.com/photo-1527515862127-a4fc05baf7a5?auto=format&fit=crop&w=600&q=80', emoji: '🍓', desc: 'Infused with freeze-dried Oregon strawberry purée, pink glaze, and colorful rainbow crunchy sprinkles.', featured: true, inStock: true, optionsLabel: 'Pack Quantity', options: [{ name: 'Single Donut', priceDelta: 0 }, { name: 'Box of 4', priceDelta: 10.50 }] },
+      { id: 'donut-3', name: 'Belgian Chocolate Dream', category: 'donuts', price: 3.75, rating: 4.85, reviewsCount: 96, tag: 'Popular', tagClass: '', image: 'https://images.unsplash.com/photo-1579372786545-d24232daf58c?auto=format&fit=crop&w=600&q=80', emoji: '🍫', desc: 'Double dipped in 70% Callebaut dark chocolate ganache and finished with hand-shaved chocolate curls.', featured: true, inStock: true, optionsLabel: 'Pack Quantity', options: [{ name: 'Single Donut', priceDelta: 0 }, { name: 'Box of 4', priceDelta: 11.00 }] },
+      { id: 'donut-4', name: 'Boston Cream Velvet', category: 'donuts', price: 3.95, rating: 4.9, reviewsCount: 112, tag: 'Chef Pick', tagClass: 'new', image: 'https://images.unsplash.com/photo-1626094309830-abbb0c97da56?auto=format&fit=crop&w=600&q=80', emoji: '🍮', desc: 'Fluffy pillow donut generously piped with chilled vanilla custard and crowned with dark chocolate glaze.', featured: false, inStock: true, optionsLabel: 'Pack Quantity', options: [{ name: 'Single Donut', priceDelta: 0 }, { name: 'Box of 4', priceDelta: 11.50 }] },
+      { id: 'donut-5', name: 'Kyoto Matcha Glaze', category: 'donuts', price: 3.85, rating: 4.75, reviewsCount: 78, tag: 'Vegan', tagClass: 'vegan', image: 'https://images.unsplash.com/photo-1549488344-1f9b8d2bd1f3?auto=format&fit=crop&w=600&q=80', emoji: '🍵', desc: 'Ceremonial grade Uji matcha glaze offering earthy notes, paired with lightly roasted white sesame seeds.', featured: false, inStock: true, optionsLabel: 'Pack Quantity', options: [{ name: 'Single Donut', priceDelta: 0 }] },
+      { id: 'donut-6', name: 'Biscoff Butter Crunch', category: 'donuts', price: 3.95, rating: 4.92, reviewsCount: 164, tag: 'Bestseller', tagClass: 'bestseller', image: 'https://images.unsplash.com/photo-1582293041079-7814c2f12063?auto=format&fit=crop&w=600&q=80', emoji: '🍪', desc: 'Speculoos cookie butter glaze, topped with crushed caramelized Lotus cookies and caramel drizzle.', featured: true, inStock: true, optionsLabel: 'Pack Quantity', options: [{ name: 'Single Donut', priceDelta: 0 }, { name: 'Box of 4', priceDelta: 11.50 }] },
+      { id: 'donut-7', name: 'Smoky Maple Bacon', category: 'donuts', price: 4.10, rating: 4.8, reviewsCount: 84, tag: 'Savory Sweet', tagClass: 'new', image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80', emoji: '🥓', desc: 'Pure Vermont grade-A amber maple syrup glaze covered in thick applewood-smoked candied bacon bites.', featured: false, inStock: true, optionsLabel: 'Pack Quantity', options: [{ name: 'Single Donut', priceDelta: 0 }] },
+      { id: 'donut-8', name: 'Cookies & Cream Blast', category: 'donuts', price: 3.85, rating: 4.82, reviewsCount: 103, tag: 'Popular', tagClass: '', image: 'https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=600&q=80', emoji: '🖤', desc: 'Sweet vanilla bean frosting coated in crushed Oreo cookie crumble and cocoa fudge drizzle.', featured: false, inStock: true, optionsLabel: 'Pack Quantity', options: [{ name: 'Single Donut', priceDelta: 0 }] },
+      { id: 'donut-9', name: 'Cinnamon Brown Sugar', category: 'donuts', price: 2.95, rating: 4.7, reviewsCount: 65, tag: 'Classic', tagClass: '', image: 'https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=600&q=80', emoji: '🍂', desc: 'Rolled directly out of the fryer in Vietnamese cinnamon and spiced golden raw cane sugar.', featured: false, inStock: true, optionsLabel: 'Pack Quantity', options: [{ name: 'Single Donut', priceDelta: 0 }] },
+      { id: 'donut-10', name: 'Wild Blueberry Lemon', category: 'donuts', price: 3.75, rating: 4.88, reviewsCount: 91, tag: 'Vegan', tagClass: 'vegan', image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&q=80', emoji: '🫐', desc: 'Tangy lemon zest brioche finished with a vibrant purple glaze made from crushed wild blueberries.', featured: false, inStock: true, optionsLabel: 'Pack Quantity', options: [{ name: 'Single Donut', priceDelta: 0 }] },
+      { id: 'coffee-1', name: 'Velvet Flat White', category: 'coffee', price: 4.25, rating: 4.9, reviewsCount: 130, tag: 'Barista Choice', tagClass: 'bestseller', image: 'https://images.unsplash.com/photo-1577968897966-3d4325b36b61?auto=format&fit=crop&w=600&q=80', emoji: '☕', desc: 'Ristretto double shot blended with micro-foamed whole milk, delivering notes of cocoa and toasted hazelnut.', featured: false, inStock: true, optionsLabel: 'Size & Milk', options: [{ name: 'Standard (8 oz)', priceDelta: 0 }, { name: 'Large (12 oz)', priceDelta: 0.65 }] },
+      { id: 'coffee-2', name: 'Cold Brew Reserve', category: 'coffee', price: 4.50, rating: 4.92, reviewsCount: 175, tag: 'Refreshing', tagClass: '', image: 'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=600&q=80', emoji: '🧊', desc: 'Steeped for 20 hours in cold filtered mountain water. Ultra-smooth, low acidity with dark chocolate undertones.', featured: true, inStock: true, optionsLabel: 'Size', options: [{ name: 'Medium (16 oz)', priceDelta: 0 }, { name: 'Large (24 oz)', priceDelta: 0.85 }] },
+      { id: 'coffee-3', name: 'Salted Caramel Latte', category: 'coffee', price: 4.95, rating: 4.94, reviewsCount: 210, tag: 'Sweet Favorite', tagClass: 'bestseller', image: 'https://images.unsplash.com/photo-1593443320739-77f74939d0da?auto=format&fit=crop&w=600&q=80', emoji: '🍯', desc: 'Fresh espresso, house-made butter caramel sauce, sea salt flakes, and silky textured steamed milk.', featured: false, inStock: true, optionsLabel: 'Temperature', options: [{ name: 'Hot Medium (12 oz)', priceDelta: 0 }, { name: 'Iced (16 oz)', priceDelta: 0.50 }] },
+      { id: 'coffee-4', name: 'Single Origin Americano', category: 'coffee', price: 3.50, rating: 4.65, reviewsCount: 68, tag: 'Pure Roast', tagClass: '', image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80', emoji: '☕', desc: 'Two shots of Ethiopian washed beans pulled over hot spring water. Clean citrus, floral and jasmine notes.', featured: false, inStock: true, optionsLabel: 'Size', options: [{ name: 'Regular (12 oz)', priceDelta: 0 }, { name: 'Large (16 oz)', priceDelta: 0.50 }] },
+      { id: 'coffee-5', name: 'Dark Mocha Truffle', category: 'coffee', price: 5.15, rating: 4.86, reviewsCount: 94, tag: 'Decadent', tagClass: 'new', image: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=600&q=80', emoji: '🍫', desc: 'Melted Valrhona chocolate stirred with bold espresso and topped with whipped Madagascar vanilla cream.', featured: false, inStock: true, optionsLabel: 'Type', options: [{ name: 'Hot (12 oz)', priceDelta: 0 }, { name: 'Iced (16 oz)', priceDelta: 0.50 }] },
+      { id: 'coffee-6', name: 'Hazelnut Praline Cortado', category: 'coffee', price: 4.35, rating: 4.88, reviewsCount: 82, tag: 'Artisan', tagClass: '', image: 'https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=600&q=80', emoji: '🌰', desc: 'Equal parts bold espresso and velvety milk, infused with toasted Piedmont hazelnut reduction.', featured: false, inStock: true, optionsLabel: 'Milk Choice', options: [{ name: 'Whole Milk', priceDelta: 0 }, { name: 'Oat Milk', priceDelta: 0.60 }] },
+      { id: 'combo-1', name: 'Morning Revival Duo', category: 'combos', price: 6.95, rating: 4.96, reviewsCount: 310, tag: 'Best Deal', tagClass: 'bestseller', image: 'https://images.unsplash.com/photo-1517256064527-09c73fc73e38?auto=format&fit=crop&w=600&q=80', emoji: '☕🍩', desc: 'Any signature brioche donut paired with any large coffee drink. The ultimate sunrise breakfast ritual.', featured: false, inStock: true, optionsLabel: 'Select Coffee', options: [{ name: 'Americano + Donut', priceDelta: 0 }, { name: 'Latte + Donut', priceDelta: 1.00 }] },
+      { id: 'combo-2', name: 'Party Sampler Dozen (12)', category: 'combos', price: 34.50, rating: 4.98, reviewsCount: 220, tag: 'Save $12', tagClass: 'bestseller', image: 'https://images.unsplash.com/photo-1527515862127-a4fc05baf7a5?auto=format&fit=crop&w=600&q=80', emoji: '🎁', desc: 'A curated tasting flight of our 12 most-demanded flavors packed neatly in our gold-foil presentation box.', featured: false, inStock: true, optionsLabel: 'Style', options: [{ name: 'Baker\'s Assorted 12', priceDelta: 0 }] }
+    ];
+
+    let PRODUCTS = [...DEFAULT_PRODUCTS];
+
+    let appState = {
+      currentUser: null,
+      cart: [],
+      wishlist: new Set(),
+      orders: [
+        { id: '#DN-9842', customerName: 'Sarah Jenkins', customerEmail: 'customer@doughnut.com', items: '2× Strawberry Sparkle, 1× Cold Brew Reserve', type: 'Delivery', total: 11.80, status: 'baking', time: '12 mins ago' },
+        { id: '#DN-9839', customerName: 'Marcus Vance', customerEmail: 'marcus@startup.io', items: '1× Party Sampler Dozen (12)', type: 'Pickup', total: 37.26, status: 'delivery', time: '28 mins ago' },
+        { id: '#DN-9835', customerName: 'Maya Lin', customerEmail: 'maya@design.co', items: '4× Classic Glazed, 2× Velvet Flat White', type: 'Delivery', total: 20.30, status: 'completed', time: '1 hour ago' }
+      ],
+      activeCategory: 'all',
+      searchQuery: '',
+      sortBy: 'popular',
+      promoCode: null,
+      promoDiscount: 0,
+      fulfillmentMode: 'delivery',
+      paymentMethod: 'card',
+      byoBox: { capacity: 4, basePrice: 13.99, items: [] }
+    };
+
+    // Load Persistence safely
+    try {
+      const savedUser = localStorage.getItem('doughnut_user');
+      if (savedUser) appState.currentUser = JSON.parse(savedUser);
+
+      const savedCart = localStorage.getItem('doughnut_cart');
+      if (savedCart) appState.cart = JSON.parse(savedCart);
+
+      const savedWishlist = localStorage.getItem('doughnut_wishlist');
+      if (savedWishlist) appState.wishlist = new Set(JSON.parse(savedWishlist));
+
+      const savedOrders = localStorage.getItem('doughnut_orders');
+      if (savedOrders) appState.orders = JSON.parse(savedOrders);
+
+      const savedProducts = localStorage.getItem('doughnut_products');
+      if (savedProducts) PRODUCTS = JSON.parse(savedProducts);
+
+      const savedContent = localStorage.getItem('doughnut_site_content');
+      if (savedContent) siteContent = { ...DEFAULT_SITE_CONTENT, ...JSON.parse(savedContent) };
+    } catch (e) {
+      console.warn('Storage disabled:', e);
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem('doughnut_user', JSON.stringify(appState.currentUser));
+        localStorage.setItem('doughnut_cart', JSON.stringify(appState.cart));
+        localStorage.setItem('doughnut_wishlist', JSON.stringify([...appState.wishlist]));
+        localStorage.setItem('doughnut_orders', JSON.stringify(appState.orders));
+        localStorage.setItem('doughnut_products', JSON.stringify(PRODUCTS));
+        localStorage.setItem('doughnut_site_content', JSON.stringify(siteContent));
+      } catch (e) {}
+    }
+
+    function formatMoney(amount) {
+      return `${CONFIG.CURRENCY}${parseFloat(amount).toFixed(2)}`;
+    }
+
+    function showToast(message, icon = '🍩') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.innerHTML = `<span class="toast-icon">${icon}</span><span>${message}</span>`;
+      container.appendChild(toast);
+      requestAnimationFrame(() => toast.classList.add('show'));
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 400);
+      }, 3000);
+    }
+
+    /**
+     * APPLY EDITABLE SITE CONTENT TO DOM
+     */
+    function applySiteContent() {
+      document.getElementById('siteAnnouncementText').innerHTML = siteContent.announcementText;
+      document.getElementById('siteHeroBadge').textContent = siteContent.heroBadge;
+      document.getElementById('siteHeroHeadline').innerHTML = siteContent.heroHeadline;
+      document.getElementById('siteHeroSubtext').textContent = siteContent.heroSubtext;
+      document.getElementById('siteHeroPerk1').textContent = siteContent.heroPerk1;
+      document.getElementById('siteHeroPerk2').textContent = siteContent.heroPerk2;
+      document.getElementById('siteAboutTitle').textContent = siteContent.aboutTitle;
+      document.getElementById('siteAboutP1').textContent = siteContent.aboutP1;
+      document.getElementById('siteAboutP2').textContent = siteContent.aboutP2;
+      document.getElementById('siteAboutStatNum').textContent = siteContent.aboutStatNum;
+      document.getElementById('siteAboutStatLabel').textContent = siteContent.aboutStatLabel;
+      document.getElementById('siteContactAddress').innerHTML = siteContent.contactAddress.replace(/\n/g, '<br>');
+      document.getElementById('siteHoursWeekday').textContent = siteContent.hoursWeekday;
+      document.getElementById('siteHoursWeekend').textContent = siteContent.hoursWeekend;
+      document.getElementById('siteContactPhone').textContent = siteContent.contactPhone;
+      document.getElementById('siteContactEmail').textContent = siteContent.contactEmail;
+      document.getElementById('siteLocationLandmark').textContent = siteContent.locationLandmark;
+    }
+
+    /**
+     * AUTHENTICATION & ADMIN STATE
+     */
+    function updateAuthNavUI() {
+      const btn = document.getElementById('navAuthBtn');
+      const label = document.getElementById('navAuthLabel');
+      const mobileLink = document.getElementById('mobileAuthLink');
+      const adminTopBar = document.getElementById('adminTopBar');
+
+      if (!appState.currentUser) {
+        label.textContent = 'Sign In';
+        btn.classList.remove('logged-admin');
+        mobileLink.textContent = '👤 My Account / Sign In';
+        adminTopBar.classList.remove('active');
+        document.body.classList.remove('is-admin');
+      } else if (appState.currentUser.role === 'admin') {
+        label.textContent = '⚡ Admin Mode';
+        btn.classList.add('logged-admin');
+        mobileLink.textContent = '⚡ Admin Console';
+        adminTopBar.classList.add('active');
+        document.body.classList.add('is-admin');
+      } else {
+        label.textContent = appState.currentUser.name.split(' ')[0];
+        btn.classList.remove('logged-admin');
+        mobileLink.textContent = `🍩 Account: ${appState.currentUser.name}`;
+        adminTopBar.classList.remove('active');
+        document.body.classList.remove('is-admin');
+      }
+    }
+
+    function handleAuthNavClick() {
+      if (!appState.currentUser) {
+        openAuthModal('customer');
+      } else if (appState.currentUser.role === 'admin') {
+        openAdminDashboard();
+      } else {
+        openCustomerAccount();
+      }
+    }
+
+    document.getElementById('navAuthBtn').addEventListener('click', handleAuthNavClick);
+    document.getElementById('mobileAuthLink').addEventListener('click', () => {
+      document.getElementById('hamburgerBtn').classList.remove('open');
+      document.getElementById('mobileMenu').classList.remove('open');
+      handleAuthNavClick();
+    });
+
+    // Admin Top Floating Bar Buttons
+    document.getElementById('btnBarEditSite').addEventListener('click', openSiteInfoModal);
+    document.getElementById('btnBarOrdersConsole').addEventListener('click', openAdminDashboard);
+    document.getElementById('btnBarSignOut').addEventListener('click', logoutAdmin);
+    document.getElementById('btnAdminOpenSiteEditor').addEventListener('click', () => {
+      closeAdminDashboard();
+      openSiteInfoModal();
+    });
+
+    function logoutAdmin() {
+      appState.currentUser = null;
+      saveState();
+      updateAuthNavUI();
+      renderFeaturedProducts();
+      renderFullMenu();
+      showToast('Logged out of Admin Mode.', '🔒');
+    }
+
+    // Auth Modal Toggles
+    const authModal = document.getElementById('authModal');
+    const tabCustomerLogin = document.getElementById('tabCustomerLogin');
+    const tabCustomerRegister = document.getElementById('tabCustomerRegister');
+    const tabAdminLogin = document.getElementById('tabAdminLogin');
+    const customerLoginView = document.getElementById('customerLoginView');
+    const customerRegisterView = document.getElementById('customerRegisterView');
+    const adminLoginView = document.getElementById('adminLoginView');
+
+    window.openAuthModal = function(initialTab = 'customer') {
+      authModal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      switchAuthTab(initialTab);
+    };
+
+    function closeAuthModal() {
+      authModal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('closeAuthBtn').addEventListener('click', closeAuthModal);
+    authModal.addEventListener('click', e => { if (e.target.id === 'authModal') closeAuthModal(); });
+
+    function switchAuthTab(tab) {
+      tabCustomerLogin.classList.toggle('active', tab === 'customer');
+      tabCustomerRegister.classList.toggle('active', tab === 'register');
+      tabAdminLogin.classList.toggle('active', tab === 'admin');
+
+      customerLoginView.style.display = tab === 'customer' ? 'block' : 'none';
+      customerRegisterView.style.display = tab === 'register' ? 'block' : 'none';
+      adminLoginView.style.display = tab === 'admin' ? 'block' : 'none';
+    }
+
+    tabCustomerLogin.addEventListener('click', () => switchAuthTab('customer'));
+    tabCustomerRegister.addEventListener('click', () => switchAuthTab('register'));
+    tabAdminLogin.addEventListener('click', () => switchAuthTab('admin'));
+
+    document.getElementById('fillDemoCustomerBtn').addEventListener('click', () => {
+      document.getElementById('custEmail').value = 'customer@doughnut.com';
+      document.getElementById('custPassword').value = 'donut123';
+    });
+
+    document.getElementById('fillDemoAdminBtn').addEventListener('click', () => {
+      document.getElementById('adminEmail').value = 'admin@doughnut.com';
+      document.getElementById('adminPassword').value = 'admin123';
+    });
+
+    document.getElementById('customerLoginForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const email = document.getElementById('custEmail').value.trim();
+      const pass = document.getElementById('custPassword').value.trim();
+      if (!email || !pass) return;
+
+      appState.currentUser = {
+        role: 'customer',
+        name: email.toLowerCase().includes('sarah') || email.toLowerCase().includes('customer') ? 'Sarah Jenkins' : email.split('@')[0],
+        email: email,
+        phone: '(555) 234-5678',
+        address: '742 Evergreen Terrace, Apt 4'
+      };
+      saveState();
+      updateAuthNavUI();
+      closeAuthModal();
+      showToast(`Welcome back, ${appState.currentUser.name}!`, '🍩');
+      
+      document.getElementById('orderName').value = appState.currentUser.name;
+      document.getElementById('orderEmail').value = appState.currentUser.email;
+      document.getElementById('orderPhone').value = appState.currentUser.phone || '';
+      document.getElementById('orderAddress').value = appState.currentUser.address || '';
+    });
+
+    document.getElementById('customerRegisterForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const name = document.getElementById('regName').value.trim();
+      const email = document.getElementById('regEmail').value.trim();
+      const pass = document.getElementById('regPassword').value.trim();
+
+      if (!name || !email || pass.length < 6) return;
+      appState.currentUser = { role: 'customer', name, email, phone: '', address: '' };
+      saveState();
+      updateAuthNavUI();
+      closeAuthModal();
+      showToast(`Welcome to DoughNut, ${name}! +50 Bonus Points! 🎉`, '✨');
+      document.getElementById('orderName').value = name;
+      document.getElementById('orderEmail').value = email;
+    });
+
+    document.getElementById('adminLoginForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const email = document.getElementById('adminEmail').value.trim();
+      const pass = document.getElementById('adminPassword').value.trim();
+
+      if (email.toLowerCase().includes('admin') && pass === 'admin123') {
+        appState.currentUser = { role: 'admin', name: 'Store Manager', email: email };
+        saveState();
+        updateAuthNavUI();
+        closeAuthModal();
+        renderFeaturedProducts();
+        renderFullMenu();
+        showToast('Admin Mode Active! Edit products on-card or update website info.', '🛡️');
+      } else {
+        showToast('Invalid credentials. Use: admin@doughnut.com / admin123', '❌');
+      }
+    });
+
+    /**
+     * CUSTOMER ACCOUNT MODAL
+     */
+    const accountModal = document.getElementById('accountModal');
+    function openCustomerAccount() {
+      if (!appState.currentUser) return;
+      document.getElementById('accUserName').textContent = `Welcome, ${appState.currentUser.name}!`;
+      document.getElementById('accUserEmail').textContent = appState.currentUser.email;
+
+      const container = document.getElementById('custOrdersList');
+      const userOrders = appState.orders.filter(o => !o.customerEmail || o.customerEmail.toLowerCase() === appState.currentUser.email.toLowerCase());
+      
+      if (userOrders.length === 0) {
+        container.innerHTML = `<p style="color:var(--text-muted); font-size:0.9rem; text-align:center; padding:1.5rem;">No orders yet. Indulge in some fresh donuts today!</p>`;
+      } else {
+        container.innerHTML = userOrders.map(o => `
+          <div style="background:var(--bg-cream); border-radius:var(--radius-sm); padding:1rem; border:1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.25rem;">
+                <strong style="color:var(--primary-pink);">${o.id}</strong>
+                <span class="order-status-badge status-${o.status}">${o.status.toUpperCase()}</span>
+              </div>
+              <div style="font-size:0.85rem; color:var(--text-espresso);">${o.items}</div>
+              <small style="color:var(--text-muted);">${o.type} • ${o.time || 'Recent'}</small>
+            </div>
+            <strong style="font-family:var(--font-display); font-size:1.1rem;">${formatMoney(o.total)}</strong>
+          </div>
+        `).join('');
+      }
+
+      accountModal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    document.getElementById('closeAccountBtn').addEventListener('click', () => {
+      accountModal.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+    document.getElementById('custLogoutBtn').addEventListener('click', () => {
+      appState.currentUser = null;
+      saveState();
+      updateAuthNavUI();
+      accountModal.classList.remove('open');
+      document.body.style.overflow = '';
+      showToast('You have been logged out.', '👋');
+    });
+
+    /**
+     * ADMIN MODAL & OPERATIONS
+     */
+    const adminModal = document.getElementById('adminModal');
+    function openAdminDashboard() {
+      refreshAdminData();
+      adminModal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeAdminDashboard() {
+      adminModal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('closeAdminBtn').addEventListener('click', closeAdminDashboard);
+    adminModal.addEventListener('click', e => { if (e.target.id === 'adminModal') closeAdminDashboard(); });
+    document.getElementById('adminLogoutBtn').addEventListener('click', () => {
+      closeAdminDashboard();
+      logoutAdmin();
+    });
+
+    document.getElementById('btnAdminViewOrders').addEventListener('click', () => {
+      document.getElementById('btnAdminViewOrders').classList.add('active');
+      document.getElementById('btnAdminViewMenu').classList.remove('active');
+      document.getElementById('adminOrdersSection').style.display = 'block';
+      document.getElementById('adminMenuSection').style.display = 'none';
+    });
+
+    document.getElementById('btnAdminViewMenu').addEventListener('click', () => {
+      document.getElementById('btnAdminViewMenu').classList.add('active');
+      document.getElementById('btnAdminViewOrders').classList.remove('active');
+      document.getElementById('adminOrdersSection').style.display = 'none';
+      document.getElementById('adminMenuSection').style.display = 'block';
+    });
+
+    function refreshAdminData() {
+      const totalRev = appState.orders.reduce((sum, o) => sum + parseFloat(o.total), 0);
+      const activeCount = appState.orders.filter(o => o.status !== 'completed').length;
+      document.getElementById('statRevenue').textContent = formatMoney(totalRev);
+      document.getElementById('statTotalOrders').textContent = appState.orders.length;
+      document.getElementById('statActiveOrders').textContent = activeCount;
+
+      document.getElementById('adminOrdersTbody').innerHTML = appState.orders.map((o, idx) => `
+        <tr>
+          <td><strong>${o.id}</strong><br><small style="color:var(--text-muted);">${o.time || 'Just now'}</small></td>
+          <td>${o.customerName}</td>
+          <td style="max-width:260px; font-size:0.85rem;">${o.items}</td>
+          <td><span style="font-weight:600;">${o.type}</span></td>
+          <td><strong>${formatMoney(o.total)}</strong></td>
+          <td>
+            <select class="form-input" style="padding:0.3rem 0.5rem; font-size:0.85rem; border-radius:6px; background:white;" onchange="updateOrderStatus(${idx}, this.value)">
+              <option value="new" ${o.status === 'new' ? 'selected' : ''}>New Ticket</option>
+              <option value="baking" ${o.status === 'baking' ? 'selected' : ''}>🍩 Baking</option>
+              <option value="delivery" ${o.status === 'delivery' ? 'selected' : ''}>🚚 Out for Delivery</option>
+              <option value="completed" ${o.status === 'completed' ? 'selected' : ''}>✅ Completed</option>
+            </select>
+          </td>
+        </tr>
+      `).join('');
+
+      document.getElementById('adminInventoryTbody').innerHTML = PRODUCTS.map((p, idx) => `
+        <tr>
+          <td>
+            <div style="display:flex; align-items:center; gap:0.5rem;">
+              <span style="font-size:1.5rem;">${p.emoji}</span>
+              <div>
+                <strong>${p.name}</strong>
+                ${p.tag ? `<br><small style="color:var(--primary-pink);">${p.tag}</small>` : ''}
+              </div>
+            </div>
+          </td>
+          <td><span style="text-transform:capitalize;">${p.category}</span></td>
+          <td><strong>${formatMoney(p.price)}</strong></td>
+          <td>
+            <span class="order-status-badge ${p.inStock !== false ? 'status-completed' : 'status-new'}">
+              ${p.inStock !== false ? 'IN STOCK' : 'SOLD OUT'}
+            </span>
+          </td>
+          <td>
+            <button class="btn btn-primary btn-sm" style="padding:0.25rem 0.65rem; font-size:0.8rem;" onclick="openProductEditModal('${p.id}')">✏️ Edit Details</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    window.updateOrderStatus = function(idx, val) {
+      if (!appState.orders[idx]) return;
+      appState.orders[idx].status = val;
+      saveState();
+      refreshAdminData();
+      showToast(`Order ${appState.orders[idx].id} updated to ${val.toUpperCase()}`, '📝');
+    };
+
+    document.getElementById('adminAddProductForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const name = document.getElementById('newProdName').value.trim();
+      const category = document.getElementById('newProdCategory').value;
+      const price = parseFloat(document.getElementById('newProdPrice').value);
+      const tag = document.getElementById('newProdTag').value.trim();
+      const image = document.getElementById('newProdImage').value.trim();
+      const emoji = document.getElementById('newProdEmoji').value.trim() || '🍩';
+      const desc = document.getElementById('newProdDesc').value.trim();
+
+      const newId = category + '-' + Date.now();
+      const newProduct = {
+        id: newId,
+        name,
+        category,
+        price,
+        rating: 5.0,
+        reviewsCount: 1,
+        tag: tag || 'New',
+        tagClass: 'new',
+        image,
+        emoji,
+        desc,
+        featured: false,
+        inStock: true,
+        optionsLabel: category === 'coffee' ? 'Size' : 'Pack Quantity',
+        options: [{ name: 'Standard', priceDelta: 0 }]
+      };
+
+      PRODUCTS.unshift(newProduct);
+      saveState();
+      renderFeaturedProducts();
+      renderFullMenu();
+      refreshAdminData();
+      document.getElementById('adminAddProductForm').reset();
+      showToast(`Added "${name}" to store menu!`, '✨');
+    });
+
+    /**
+     * ADMIN: EDIT WEBSITE INFORMATION CMS MODAL
+     */
+    const siteInfoModal = document.getElementById('siteInfoModal');
+    function openSiteInfoModal() {
+      document.getElementById('editAnnouncementText').value = siteContent.announcementText;
+      document.getElementById('editHeroBadge').value = siteContent.heroBadge;
+      document.getElementById('editHeroHeadline').value = siteContent.heroHeadline;
+      document.getElementById('editHeroSubtext').value = siteContent.heroSubtext;
+      document.getElementById('editHeroPerk1').value = siteContent.heroPerk1;
+      document.getElementById('editHeroPerk2').value = siteContent.heroPerk2;
+      document.getElementById('editAboutTitle').value = siteContent.aboutTitle;
+      document.getElementById('editAboutP1').value = siteContent.aboutP1;
+      document.getElementById('editAboutP2').value = siteContent.aboutP2;
+      document.getElementById('editAboutStatNum').value = siteContent.aboutStatNum;
+      document.getElementById('editAboutStatLabel').value = siteContent.aboutStatLabel;
+      document.getElementById('editContactAddress').value = siteContent.contactAddress;
+      document.getElementById('editHoursWeekday').value = siteContent.hoursWeekday;
+      document.getElementById('editHoursWeekend').value = siteContent.hoursWeekend;
+      document.getElementById('editContactPhone').value = siteContent.contactPhone;
+      document.getElementById('editContactEmail').value = siteContent.contactEmail;
+      document.getElementById('editLocationLandmark').value = siteContent.locationLandmark;
+
+      siteInfoModal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeSiteInfoModal() {
+      siteInfoModal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('closeSiteInfoBtn').addEventListener('click', closeSiteInfoModal);
+    document.getElementById('btnCancelSiteInfo').addEventListener('click', closeSiteInfoModal);
+    siteInfoModal.addEventListener('click', e => { if (e.target.id === 'siteInfoModal') closeSiteInfoModal(); });
+
+    document.getElementById('siteInfoForm').addEventListener('submit', e => {
+      e.preventDefault();
+      siteContent.announcementText = document.getElementById('editAnnouncementText').value.trim();
+      siteContent.heroBadge = document.getElementById('editHeroBadge').value.trim();
+      siteContent.heroHeadline = document.getElementById('editHeroHeadline').value.trim();
+      siteContent.heroSubtext = document.getElementById('editHeroSubtext').value.trim();
+      siteContent.heroPerk1 = document.getElementById('editHeroPerk1').value.trim();
+      siteContent.heroPerk2 = document.getElementById('editHeroPerk2').value.trim();
+      siteContent.aboutTitle = document.getElementById('editAboutTitle').value.trim();
+      siteContent.aboutP1 = document.getElementById('editAboutP1').value.trim();
+      siteContent.aboutP2 = document.getElementById('editAboutP2').value.trim();
+      siteContent.aboutStatNum = document.getElementById('editAboutStatNum').value.trim();
+      siteContent.aboutStatLabel = document.getElementById('editAboutStatLabel').value.trim();
+      siteContent.contactAddress = document.getElementById('editContactAddress').value.trim();
+      siteContent.hoursWeekday = document.getElementById('editHoursWeekday').value.trim();
+      siteContent.hoursWeekend = document.getElementById('editHoursWeekend').value.trim();
+      siteContent.contactPhone = document.getElementById('editContactPhone').value.trim();
+      siteContent.contactEmail = document.getElementById('editContactEmail').value.trim();
+      siteContent.locationLandmark = document.getElementById('editLocationLandmark').value.trim();
+
+      saveState();
+      applySiteContent();
+      closeSiteInfoModal();
+      showToast('Website copy & information successfully updated!', '💾');
+    });
+
+    document.getElementById('btnResetSiteDefaults').addEventListener('click', () => {
+      if (confirm('Reset all website headlines, hours and copy back to original default bakery copy?')) {
+        siteContent = { ...DEFAULT_SITE_CONTENT };
+        saveState();
+        applySiteContent();
+        openSiteInfoModal();
+        showToast('Restored default website copy.', '🔄');
+      }
+    });
+
+    /**
+     * ADMIN: EDIT INDIVIDUAL PRODUCT MODAL
+     */
+    const productEditModal = document.getElementById('productEditModal');
+    window.openProductEditModal = function(productId) {
+      const product = PRODUCTS.find(p => p.id === productId);
+      if (!product) return;
+
+      document.getElementById('editProdId').value = product.id;
+      document.getElementById('editProdName').value = product.name;
+      document.getElementById('editProdCategory').value = product.category;
+      document.getElementById('editProdPrice').value = product.price;
+      document.getElementById('editProdTag').value = product.tag || '';
+      document.getElementById('editProdEmoji').value = product.emoji || '🍩';
+      document.getElementById('editProdImage').value = product.image;
+      document.getElementById('editProdDesc').value = product.desc;
+      document.getElementById('editProdInStock').checked = product.inStock !== false;
+      document.getElementById('editProdModalHeading').textContent = `Edit "${product.name}"`;
+
+      productEditModal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    };
+
+    function closeProductEditModal() {
+      productEditModal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('closeProdEditBtn').addEventListener('click', closeProductEditModal);
+    document.getElementById('btnCancelProdEdit').addEventListener('click', closeProductEditModal);
+    productEditModal.addEventListener('click', e => { if (e.target.id === 'productEditModal') closeProductEditModal(); });
+
+    document.getElementById('productEditForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const id = document.getElementById('editProdId').value;
+      const product = PRODUCTS.find(p => p.id === id);
+      if (!product) return;
+
+      product.name = document.getElementById('editProdName').value.trim();
+      product.category = document.getElementById('editProdCategory').value;
+      product.price = parseFloat(document.getElementById('editProdPrice').value);
+      product.tag = document.getElementById('editProdTag').value.trim();
+      product.emoji = document.getElementById('editProdEmoji').value.trim() || '🍩';
+      product.image = document.getElementById('editProdImage').value.trim();
+      product.desc = document.getElementById('editProdDesc').value.trim();
+      product.inStock = document.getElementById('editProdInStock').checked;
+
+      saveState();
+      renderFeaturedProducts();
+      renderFullMenu();
+      refreshAdminData();
+      closeProductEditModal();
+      showToast(`Updated "${product.name}" successfully!`, '✅');
+    });
+
+    document.getElementById('btnDeleteProduct').addEventListener('click', () => {
+      const id = document.getElementById('editProdId').value;
+      const product = PRODUCTS.find(p => p.id === id);
+      if (!product) return;
+
+      if (confirm(`Are you sure you want to delete "${product.name}" from the store menu?`)) {
+        PRODUCTS = PRODUCTS.filter(p => p.id !== id);
+        saveState();
+        renderFeaturedProducts();
+        renderFullMenu();
+        refreshAdminData();
+        closeProductEditModal();
+        showToast(`Removed "${product.name}" from store menu.`, '🗑️');
+      }
+    });
+
+    /**
+     * PRODUCT CARD BUILDER WITH ADMIN EDIT BUTTON
+     */
+    function createProductCardHTML(p) {
+      const isWishlisted = appState.wishlist.has(p.id);
+      const isSoldOut = p.inStock === false;
+
+      return `
+        <article class="product-card ${isSoldOut ? 'sold-out' : ''}" data-id="${p.id}">
+          <div class="product-image-wrap">
+            ${isSoldOut ? `<span class="product-badge-tag sold-out-badge">Sold Out</span>` : (p.tag ? `<span class="product-badge-tag ${p.tagClass || ''}">${p.tag}</span>` : '')}
+            
+            <!-- Admin Edit Button -->
+            <button class="admin-edit-prod-btn" onclick="openProductEditModal('${p.id}')" title="Edit this product">
+              <span>✏️ Edit</span>
+            </button>
+
+            <button class="wishlist-btn ${isWishlisted ? 'active' : ''}" data-id="${p.id}" aria-label="Save ${p.name}">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+            </button>
+            <img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="img-fallback" style="display:none;" aria-hidden="true">${p.emoji}</div>
+          </div>
+
+          <div class="product-card-body">
+            <div class="product-meta-row">
+              <span class="product-category">${p.category}</span>
+              <div class="product-rating">
+                <span style="color:#FFB800;">★</span>
+                <span>${p.rating}</span>
+                <small style="color:var(--text-muted)">(${p.reviewsCount})</small>
+              </div>
+            </div>
+
+            <h3 class="product-title">${p.name}</h3>
+            <p class="product-desc">${p.desc}</p>
+
+            <div class="product-card-footer">
+              <span class="product-price">${formatMoney(p.price)}</span>
+              <div class="product-actions">
+                <button class="btn-quick-view" data-id="${p.id}" title="Quick View">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </button>
+                <button class="btn btn-primary btn-sm add-to-cart-direct-btn" data-id="${p.id}" ${isSoldOut ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : ''}>
+                  <span>${isSoldOut ? 'Sold Out' : 'Add'}</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderFeaturedProducts() {
+      const container = document.getElementById('featuredGrid');
+      const featured = PRODUCTS.filter(p => p.featured).slice(0, 4);
+      container.innerHTML = featured.map(createProductCardHTML).join('');
+    }
+
+    function renderFullMenu() {
+      const container = document.getElementById('fullMenuGrid');
+      let filtered = PRODUCTS.filter(p => {
+        const matchesCategory = (appState.activeCategory === 'all') || (p.category === appState.activeCategory);
+        const matchesQuery = p.name.toLowerCase().includes(appState.searchQuery.toLowerCase()) || 
+                             p.desc.toLowerCase().includes(appState.searchQuery.toLowerCase());
+        return matchesCategory && matchesQuery;
+      });
+
+      if (appState.sortBy === 'price-low') filtered.sort((a, b) => a.price - b.price);
+      else if (appState.sortBy === 'price-high') filtered.sort((a, b) => b.price - a.price);
+      else filtered.sort((a, b) => (b.reviewsCount * b.rating) - (a.reviewsCount * a.rating));
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div style="text-align:center; padding:4rem 1rem; grid-column:1/-1;"><h3>No delicious matches found</h3><p style="color:var(--text-muted);">Try clearing search.</p></div>`;
+        return;
+      }
+      container.innerHTML = filtered.map(createProductCardHTML).join('');
+    }
+
+    /**
+     * BUILD-YOUR-OWN BOX LOGIC
+     */
+    function setupByoBox() {
+      const flavorsGrid = document.getElementById('byoFlavorsGrid');
+      const donutFlavors = PRODUCTS.filter(p => p.category === 'donuts' && p.inStock !== false);
+
+      flavorsGrid.innerHTML = donutFlavors.map(d => `
+        <div class="flavor-chip" data-flavor-id="${d.id}">
+          <div style="font-size:2rem; margin-bottom:0.25rem;">${d.emoji}</div>
+          <div style="font-size:0.85rem; font-weight:600;">${d.name}</div>
+        </div>
+      `).join('');
+
+      renderByoSlots();
+
+      document.querySelectorAll('.byo-size-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.byo-size-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const capacity = parseInt(btn.dataset.boxSize, 10);
+          appState.byoBox.capacity = capacity;
+          appState.byoBox.basePrice = parseFloat(btn.dataset.price);
+          if (appState.byoBox.items.length > capacity) {
+            appState.byoBox.items = appState.byoBox.items.slice(0, capacity);
+          }
+          renderByoSlots();
+        });
+      });
+
+      flavorsGrid.addEventListener('click', e => {
+        const chip = e.target.closest('.flavor-chip');
+        if (!chip) return;
+        if (appState.byoBox.items.length >= appState.byoBox.capacity) {
+          showToast(`Box is full! Remove a flavor or choose 6-pack.`, '📦');
+          return;
+        }
+        const flavor = donutFlavors.find(f => f.id === chip.dataset.flavorId);
+        if (flavor) {
+          appState.byoBox.items.push(flavor);
+          renderByoSlots();
+          showToast(`Added ${flavor.name} to box`, flavor.emoji);
+        }
+      });
+
+      document.getElementById('clearByoBoxBtn').addEventListener('click', () => {
+        appState.byoBox.items = [];
+        renderByoSlots();
+      });
+
+      document.getElementById('addByoBoxBtn').addEventListener('click', () => {
+        if (appState.byoBox.items.length < appState.byoBox.capacity) return;
+        const flavorNames = appState.byoBox.items.map(i => i.name).join(', ');
+        addToCart({
+          cartItemId: 'byo-' + Date.now(),
+          productId: 'custom-box',
+          name: `Custom ${appState.byoBox.capacity}-Pack Box`,
+          optionName: flavorNames,
+          unitPrice: appState.byoBox.basePrice,
+          quantity: 1,
+          image: 'https://images.unsplash.com/photo-1527515862127-a4fc05baf7a5?auto=format&fit=crop&w=400&q=80',
+          emoji: '🎁'
+        });
+        appState.byoBox.items = [];
+        renderByoSlots();
+        showToast('Custom Donut Box added to bag!', '🎉');
+        openCartDrawer();
+      });
+    }
+
+    function renderByoSlots() {
+      const container = document.getElementById('boxSlotsDisplay');
+      document.getElementById('byoProgressText').textContent = `Filled: ${appState.byoBox.items.length} / ${appState.byoBox.capacity}`;
+      document.getElementById('byoPriceDisplay').textContent = formatMoney(appState.byoBox.basePrice);
+
+      let slotsHTML = '';
+      for (let i = 0; i < appState.byoBox.capacity; i++) {
+        const item = appState.byoBox.items[i];
+        if (item) {
+          slotsHTML += `
+            <div class="box-slot filled" onclick="removeByoSlot(${i})" style="cursor:pointer;">
+              <span style="font-size:1.8rem;">${item.emoji}</span>
+              <span style="font-size:0.75rem; font-weight:700; max-width:90%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${item.name}</span>
+              <button class="box-slot-remove">✕</button>
+            </div>
+          `;
+        } else {
+          slotsHTML += `<div class="box-slot" style="color:var(--text-muted); font-size:0.8rem; font-weight:600;">+ Slot ${i + 1}</div>`;
+        }
+      }
+      container.innerHTML = slotsHTML;
+      document.getElementById('addByoBoxBtn').disabled = appState.byoBox.items.length !== appState.byoBox.capacity;
+    }
+
+    window.removeByoSlot = function(index) {
+      appState.byoBox.items.splice(index, 1);
+      renderByoSlots();
+    };
+
+    /**
+     * CART OPERATIONS
+     */
+    function addToCart(item) {
+      const existing = appState.cart.find(ci => ci.productId === item.productId && ci.optionName === item.optionName);
+      if (existing) existing.quantity += item.quantity;
+      else appState.cart.push(item);
+      saveState();
+      updateCartBadge();
+      renderCartItems();
+    }
+
+    function updateCartBadge() {
+      const badge = document.getElementById('cartCountBadge');
+      const totalItems = appState.cart.reduce((sum, item) => sum + item.quantity, 0);
+      badge.textContent = totalItems;
+      document.getElementById('drawerItemCount').textContent = `(${totalItems} items)`;
+      badge.classList.add('bump');
+      setTimeout(() => badge.classList.remove('bump'), 300);
+      document.getElementById('openCheckoutBtn').disabled = totalItems === 0;
+    }
+
+    function renderCartItems() {
+      const container = document.getElementById('cartItemsList');
+      if (appState.cart.length === 0) {
+        container.innerHTML = `<div style="text-align:center; padding:3rem 1rem; color:var(--text-muted);"><div style="font-size:4rem; margin-bottom:1rem;">🍩</div><h4>Your bag is empty</h4><p>Pick some fresh pastries or coffee!</p></div>`;
+        calculateCartTotals();
+        return;
+      }
+
+      container.innerHTML = appState.cart.map((item, idx) => `
+        <div class="cart-item">
+          <img src="${item.image}" alt="${item.name}" class="cart-item-img" onerror="this.src='https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=200&q=80';">
+          <div style="flex:1;">
+            <h4 style="font-size:1rem; font-weight:600;">${item.name}</h4>
+            <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:0.4rem;">${item.optionName || 'Standard'}</div>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div class="qty-controls">
+                <button class="qty-btn" onclick="updateCartItemQty(${idx}, -1)">-</button>
+                <span style="font-weight:600; min-width:24px; text-align:center;">${item.quantity}</span>
+                <button class="qty-btn" onclick="updateCartItemQty(${idx}, 1)">+</button>
+              </div>
+              <strong style="font-family:var(--font-display);">${formatMoney(item.unitPrice * item.quantity)}</strong>
+            </div>
+          </div>
+          <button onclick="removeCartItem(${idx})" style="color:var(--text-muted); padding:4px;">✕</button>
+        </div>
+      `).join('');
+
+      calculateCartTotals();
+    }
+
+    window.updateCartItemQty = function(index, delta) {
+      if (!appState.cart[index]) return;
+      appState.cart[index].quantity += delta;
+      if (appState.cart[index].quantity <= 0) appState.cart.splice(index, 1);
+      saveState();
+      updateCartBadge();
+      renderCartItems();
+    };
+
+    window.removeCartItem = function(index) {
+      if (!appState.cart[index]) return;
+      appState.cart.splice(index, 1);
+      saveState();
+      updateCartBadge();
+      renderCartItems();
+    };
+
+    function calculateCartTotals() {
+      const subtotal = appState.cart.reduce((sum, item) => sum + (item.unitPrice * item.quantity), 0);
+      const discountAmount = subtotal * appState.promoDiscount;
+      const taxable = Math.max(0, subtotal - discountAmount);
+      const tax = taxable * CONFIG.TAX_RATE;
+      const total = taxable + tax;
+
+      document.getElementById('cartSubtotal').textContent = formatMoney(subtotal);
+      const discountRow = document.getElementById('cartDiscountRow');
+      if (discountAmount > 0) {
+        discountRow.style.display = 'flex';
+        document.getElementById('cartDiscount').textContent = `-${formatMoney(discountAmount)}`;
+      } else {
+        discountRow.style.display = 'none';
+      }
+      document.getElementById('cartTax').textContent = formatMoney(tax);
+      document.getElementById('cartTotal').textContent = formatMoney(total);
+      return { subtotal, discountAmount, tax, total };
+    }
+
+    const cartDrawer = document.getElementById('cartDrawer');
+    const cartOverlay = document.getElementById('cartOverlay');
+    function openCartDrawer() { cartDrawer.classList.add('open'); cartOverlay.classList.add('open'); document.body.style.overflow = 'hidden'; }
+    function closeCartDrawer() { cartDrawer.classList.remove('open'); cartOverlay.classList.remove('open'); document.body.style.overflow = ''; }
+    document.getElementById('openCartBtn').addEventListener('click', openCartDrawer);
+    document.getElementById('closeCartBtn').addEventListener('click', closeCartDrawer);
+    cartOverlay.addEventListener('click', closeCartDrawer);
+
+    document.getElementById('applyPromoBtn').addEventListener('click', () => {
+      const code = document.getElementById('promoInput').value.trim().toUpperCase();
+      const msg = document.getElementById('promoMessage');
+      if (CONFIG.VALID_PROMOS[code]) {
+        appState.promoCode = code;
+        appState.promoDiscount = CONFIG.VALID_PROMOS[code];
+        msg.style.display = 'block';
+        msg.style.color = '#2D6A4F';
+        msg.textContent = `Promo "${code}" applied: ${(appState.promoDiscount * 100)}% OFF!`;
+        showToast(`Promo ${code} applied!`, '🏷️');
+        calculateCartTotals();
+      } else {
+        msg.style.display = 'block';
+        msg.style.color = '#E63946';
+        msg.textContent = 'Invalid promo. Try "DONUT10"';
+        appState.promoCode = null;
+        appState.promoDiscount = 0;
+        calculateCartTotals();
+      }
+    });
+
+    // Quick View
+    let qvCurrentProduct = null, qvSelectedOption = null, qvCurrentQty = 1;
+    function openQuickView(productId) {
+      const product = PRODUCTS.find(p => p.id === productId);
+      if (!product) return;
+      qvCurrentProduct = product;
+      qvCurrentQty = 1;
+
+      document.getElementById('qvTitle').textContent = product.name;
+      document.getElementById('qvCategory').textContent = product.category;
+      document.getElementById('qvDesc').textContent = product.desc;
+      document.getElementById('qvPrice').textContent = formatMoney(product.price);
+      document.getElementById('qvQtyDisplay').textContent = '1';
+
+      const img = document.getElementById('qvImage');
+      img.src = product.image;
+      img.alt = product.name;
+
+      const optContainer = document.getElementById('qvOptionsContainer');
+      if (product.options && product.options.length > 0) {
+        qvSelectedOption = product.options[0];
+        optContainer.innerHTML = `
+          <div style="font-weight:700; font-size:0.85rem; text-transform:uppercase; margin:1rem 0 0.5rem;">${product.optionsLabel || 'Options'}:</div>
+          <div class="qv-options-row">
+            ${product.options.map((opt, i) => `
+              <div class="qv-option-chip ${i === 0 ? 'active' : ''}" data-idx="${i}">
+                ${opt.name} ${opt.priceDelta > 0 ? `(+${formatMoney(opt.priceDelta)})` : ''}
+              </div>
+            `).join('')}
+          </div>
+        `;
+        optContainer.querySelectorAll('.qv-option-chip').forEach(chip => {
+          chip.addEventListener('click', () => {
+            optContainer.querySelectorAll('.qv-option-chip').forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+            const idx = parseInt(chip.dataset.idx, 10);
+            qvSelectedOption = product.options[idx];
+            document.getElementById('qvPrice').textContent = formatMoney(product.price + qvSelectedOption.priceDelta);
+          });
+        });
+      } else {
+        qvSelectedOption = { name: 'Standard', priceDelta: 0 };
+        optContainer.innerHTML = '';
+      }
+
+      document.getElementById('quickViewModal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    document.getElementById('closeQvBtn').addEventListener('click', () => {
+      document.getElementById('quickViewModal').classList.remove('open');
+      document.body.style.overflow = '';
+    });
+    document.getElementById('qvQtyMinus').addEventListener('click', () => {
+      if (qvCurrentQty > 1) { qvCurrentQty--; document.getElementById('qvQtyDisplay').textContent = qvCurrentQty; }
+    });
+    document.getElementById('qvQtyPlus').addEventListener('click', () => {
+      qvCurrentQty++; document.getElementById('qvQtyDisplay').textContent = qvCurrentQty;
+    });
+    document.getElementById('qvAddToCartBtn').addEventListener('click', () => {
+      if (!qvCurrentProduct) return;
+      if (qvCurrentProduct.inStock === false) {
+        showToast('Sorry, this item is currently sold out!', '⚠️');
+        return;
+      }
+      const finalPrice = qvCurrentProduct.price + (qvSelectedOption ? qvSelectedOption.priceDelta : 0);
+      addToCart({
+        cartItemId: 'item-' + Date.now(),
+        productId: qvCurrentProduct.id,
+        name: qvCurrentProduct.name,
+        optionName: qvSelectedOption ? qvSelectedOption.name : '',
+        unitPrice: finalPrice,
+        quantity: qvCurrentQty,
+        image: qvCurrentProduct.image,
+        emoji: qvCurrentProduct.emoji
+      });
+      document.getElementById('quickViewModal').classList.remove('open');
+      document.body.style.overflow = '';
+      showToast(`Added ${qvCurrentQty} × ${qvCurrentProduct.name}!`, qvCurrentProduct.emoji);
+      openCartDrawer();
+    });
+
+    // Checkout
+    const checkoutModal = document.getElementById('checkoutModal');
+    function openCheckout() {
+      closeCartDrawer();
+      updateCheckoutBreakdown();
+      document.getElementById('checkoutFormView').style.display = 'block';
+      document.getElementById('confirmationView').style.display = 'none';
+
+      if (appState.currentUser && appState.currentUser.role === 'customer') {
+        document.getElementById('orderName').value = appState.currentUser.name || '';
+        document.getElementById('orderEmail').value = appState.currentUser.email || '';
+        if (appState.currentUser.phone) document.getElementById('orderPhone').value = appState.currentUser.phone;
+        if (appState.currentUser.address) document.getElementById('orderAddress').value = appState.currentUser.address;
+      }
+
+      checkoutModal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeCheckout() {
+      checkoutModal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('openCheckoutBtn').addEventListener('click', openCheckout);
+    document.getElementById('closeCheckoutBtn').addEventListener('click', closeCheckout);
+    document.getElementById('continueShoppingBtn').addEventListener('click', closeCheckout);
+
+    const modeDeliveryBtn = document.getElementById('modeDeliveryBtn');
+    const modePickupBtn = document.getElementById('modePickupBtn');
+    const addressGroup = document.getElementById('deliveryAddressGroup');
+
+    modeDeliveryBtn.addEventListener('click', () => {
+      modeDeliveryBtn.classList.add('active');
+      modePickupBtn.classList.remove('active');
+      appState.fulfillmentMode = 'delivery';
+      addressGroup.style.display = 'block';
+      updateCheckoutBreakdown();
+    });
+    modePickupBtn.addEventListener('click', () => {
+      modePickupBtn.classList.add('active');
+      modeDeliveryBtn.classList.remove('active');
+      appState.fulfillmentMode = 'pickup';
+      addressGroup.style.display = 'none';
+      updateCheckoutBreakdown();
+    });
+
+    document.querySelectorAll('.payment-option-card').forEach(card => {
+      card.addEventListener('click', () => {
+        document.querySelectorAll('.payment-option-card').forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+        appState.paymentMethod = card.dataset.method;
+        document.getElementById('cardInputsBox').style.display = (appState.paymentMethod === 'card') ? 'flex' : 'none';
+      });
+    });
+
+    function updateCheckoutBreakdown() {
+      const subtotal = appState.cart.reduce((sum, item) => sum + (item.unitPrice * item.quantity), 0);
+      const discount = subtotal * appState.promoDiscount;
+      const isDelivery = appState.fulfillmentMode === 'delivery';
+      let deliveryFee = isDelivery ? (subtotal >= CONFIG.FREE_DELIVERY_THRESHOLD ? 0 : CONFIG.DELIVERY_FEE) : 0;
+      const taxable = Math.max(0, subtotal - discount);
+      const tax = taxable * CONFIG.TAX_RATE;
+      const grandTotal = taxable + deliveryFee + tax;
+
+      document.getElementById('coSubtotal').textContent = formatMoney(subtotal);
+      const coDiscRow = document.getElementById('coDiscountRow');
+      if (discount > 0) {
+        coDiscRow.style.display = 'flex';
+        document.getElementById('coDiscount').textContent = `-${formatMoney(discount)}`;
+      } else {
+        coDiscRow.style.display = 'none';
+      }
+      document.getElementById('coDeliveryFee').textContent = deliveryFee === 0 ? 'FREE' : formatMoney(deliveryFee);
+      document.getElementById('coTax').textContent = formatMoney(tax);
+      document.getElementById('coTotal').textContent = formatMoney(grandTotal);
+      document.getElementById('checkoutSubmitTotal').textContent = `• ${formatMoney(grandTotal)}`;
+
+      document.getElementById('checkoutSummaryItems').innerHTML = appState.cart.map(item => `
+        <div style="display:flex; justify-content:space-between; margin-bottom:0.4rem;">
+          <span>${item.quantity}× ${item.name}</span>
+          <strong>${formatMoney(item.unitPrice * item.quantity)}</strong>
+        </div>
+      `).join('');
+    }
+
+    document.getElementById('orderForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const name = document.getElementById('orderName').value.trim();
+      const email = document.getElementById('orderEmail').value.trim();
+      const phone = document.getElementById('orderPhone').value.trim();
+      const address = document.getElementById('orderAddress').value.trim();
+
+      if (!name || !email || !phone || (appState.fulfillmentMode === 'delivery' && !address)) {
+        showToast('Please complete all contact and address fields.', '⚠️');
+        return;
+      }
+
+      const randomId = '#DN-' + Math.floor(1000 + Math.random() * 9000);
+      const itemsSummary = appState.cart.map(i => `${i.quantity}× ${i.name}`).join(', ');
+      const subtotal = appState.cart.reduce((sum, item) => sum + (item.unitPrice * item.quantity), 0);
+      const discount = subtotal * appState.promoDiscount;
+      const deliveryFee = appState.fulfillmentMode === 'delivery' ? (subtotal >= CONFIG.FREE_DELIVERY_THRESHOLD ? 0 : CONFIG.DELIVERY_FEE) : 0;
+      const orderTotal = Math.max(0, subtotal - discount) * (1 + CONFIG.TAX_RATE) + deliveryFee;
+
+      const newOrder = {
+        id: randomId,
+        customerName: name,
+        customerEmail: email,
+        items: itemsSummary,
+        type: appState.fulfillmentMode === 'delivery' ? 'Delivery' : 'Pickup',
+        total: orderTotal,
+        status: 'new',
+        time: 'Just now'
+      };
+      appState.orders.unshift(newOrder);
+
+      document.getElementById('confirmedOrderId').textContent = randomId;
+      document.getElementById('confirmedEstTime').textContent = appState.fulfillmentMode === 'delivery' ? '25 - 35 mins' : '10 - 15 mins';
+      document.getElementById('confirmedFulfillment').textContent = appState.fulfillmentMode === 'delivery' ? `Delivery to ${address}` : 'Bakery Pickup (Ready at Counter)';
+
+      document.getElementById('checkoutFormView').style.display = 'none';
+      document.getElementById('confirmationView').style.display = 'block';
+
+      appState.cart = [];
+      saveState();
+      updateCartBadge();
+      renderCartItems();
+    });
+
+    // Carousel
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.carousel-slide');
+    const track = document.getElementById('carouselTrack');
+    const dots = document.querySelectorAll('.carousel-dot');
+    function updateCarousel(index) {
+      currentSlide = (index + slides.length) % slides.length;
+      track.style.transform = `translateX(-${currentSlide * 100}%)`;
+      dots.forEach((dot, idx) => dot.classList.toggle('active', idx === currentSlide));
+    }
+    document.getElementById('carouselPrevBtn').addEventListener('click', () => updateCarousel(currentSlide - 1));
+    document.getElementById('carouselNextBtn').addEventListener('click', () => updateCarousel(currentSlide + 1));
+    dots.forEach(dot => dot.addEventListener('click', () => updateCarousel(parseInt(dot.dataset.index, 10))));
+
+    // Newsletter & Contact
+    document.getElementById('newsletterForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const input = document.getElementById('newsletterEmail');
+      if (input.value.includes('@')) {
+        document.getElementById('newsletterSuccess').style.display = 'block';
+        input.value = '';
+        showToast('You are on the secret donut list!', '💌');
+      }
+    });
+
+    document.getElementById('contactForm').addEventListener('submit', e => {
+      e.preventDefault();
+      showToast('Message sent! Our team will reply shortly.', '✨');
+      document.getElementById('contactForm').reset();
+    });
+
+    // Global Click Delegation
+    document.addEventListener('click', e => {
+      const addBtn = e.target.closest('.add-to-cart-direct-btn');
+      if (addBtn) {
+        const product = PRODUCTS.find(p => p.id === addBtn.dataset.id);
+        if (product) {
+          if (product.inStock === false) {
+            showToast('Sorry, this flavor is sold out!', '⚠️');
+            return;
+          }
+          addToCart({
+            cartItemId: 'item-' + Date.now(),
+            productId: product.id,
+            name: product.name,
+            optionName: product.options ? product.options[0].name : 'Standard',
+            unitPrice: product.price,
+            quantity: 1,
+            image: product.image,
+            emoji: product.emoji
+          });
+          showToast(`Added ${product.name}!`, product.emoji);
+          openCartDrawer();
+        }
+        return;
+      }
+
+      const qvBtn = e.target.closest('.btn-quick-view');
+      if (qvBtn) { openQuickView(qvBtn.dataset.id); return; }
+
+      const wishBtn = e.target.closest('.wishlist-btn');
+      if (wishBtn) {
+        const id = wishBtn.dataset.id;
+        if (appState.wishlist.has(id)) {
+          appState.wishlist.delete(id);
+          wishBtn.classList.remove('active');
+          showToast('Removed from wishlist', '💔');
+        } else {
+          appState.wishlist.add(id);
+          wishBtn.classList.add('active');
+          showToast('Saved to your favorites!', '💖');
+        }
+        saveState();
+        return;
+      }
+    });
+
+    // Filter, Search, Sort & Mobile Hamburger
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        appState.activeCategory = btn.dataset.category;
+        renderFullMenu();
+      });
+    });
+
+    document.getElementById('menuSearchInput').addEventListener('input', e => {
+      appState.searchQuery = e.target.value.trim();
+      renderFullMenu();
+    });
+
+    document.getElementById('menuSortSelect').addEventListener('change', e => {
+      appState.sortBy = e.target.value;
+      renderFullMenu();
+    });
+
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    hamburgerBtn.addEventListener('click', () => {
+      const isOpen = hamburgerBtn.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+      hamburgerBtn.setAttribute('aria-expanded', isOpen);
+    });
+
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburgerBtn.classList.remove('open');
+        mobileMenu.classList.remove('open');
+      });
+    });
+
+    // Back to top & scroll
+    const backToTopBtn = document.getElementById('backToTopBtn');
+    const navbarWrapper = document.getElementById('navbarWrapper');
+    window.addEventListener('scroll', () => {
+      navbarWrapper.classList.toggle('scrolled', window.scrollY > 20);
+      backToTopBtn.classList.toggle('visible', window.scrollY > 400);
+    });
+    backToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    // Initialization
+    document.addEventListener('DOMContentLoaded', () => {
+      applySiteContent();
+      updateAuthNavUI();
+      renderFeaturedProducts();
+      renderFullMenu();
+      setupByoBox();
+      updateCartBadge();
+      renderCartItems();
+    });
+  </script>
+</body>
+</html>
