@@ -18,6 +18,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,400&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
 
+  <!-- Official Supabase Client SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <style>
     :root {
       --bg-cream: #FFF6EC;
@@ -165,6 +168,31 @@
     .btn-admin-bar:hover { background: white; color: var(--admin-navy); }
     .btn-admin-bar.highlight { background: var(--primary-pink); border-color: var(--primary-pink); }
     .btn-admin-bar.highlight:hover { background: var(--primary-pink-hover); color: white; }
+
+    .supabase-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.25rem 0.65rem;
+      border-radius: var(--radius-full);
+      background: rgba(148, 222, 197, 0.22);
+      color: #0b6b50;
+      border: 1px solid rgba(148, 222, 197, 0.5);
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+    .supabase-status-badge.connecting {
+      background: rgba(217, 142, 63, 0.18);
+      color: #b2691b;
+      border-color: rgba(217, 142, 63, 0.4);
+    }
+    .supabase-status-badge.offline {
+      background: rgba(217, 4, 41, 0.1);
+      color: #d90429;
+      border-color: rgba(217, 4, 41, 0.3);
+    }
 
     /* Announcement & Navbar */
     .announcement-bar {
@@ -529,6 +557,7 @@
     <div class="admin-bar-inner container">
       <div style="display:flex; align-items:center; gap:0.6rem;">
         <span class="admin-badge-pill">Admin Mode</span>
+        <span class="supabase-status-badge" id="adminDbStatusBadge">🟢 Supabase Live</span>
         <span>You have store management permissions.</span>
       </div>
       <div class="admin-actions-group">
@@ -579,6 +608,7 @@
       </nav>
 
       <div class="nav-actions">
+        <span class="supabase-status-badge" id="navDbStatusBadge" title="Supabase Database Status">🟢 Supabase</span>
         <button class="nav-user-btn" id="navAuthBtn" aria-label="Customer or Staff Account">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
           <span id="navAuthLabel">Sign In</span>
@@ -1804,6 +1834,235 @@
       } catch (e) {}
     }
 
+    /**
+     * =========================================================================
+     * SUPABASE CLOUD INTEGRATION & LIVE REALTIME SYNC
+     * =========================================================================
+     */
+    const SUPABASE_CONFIG = {
+      url: 'https://yuqulyumgvkvktfzrdgc.supabase.co',
+      key: 'sb_publishable_v-SdINN906zcOwZHn5avcQ_kvMdqmoH'
+    };
+
+    let supabaseClient = null;
+    let isSupabaseReady = false;
+
+    function updateSupabaseBadges(statusText, className) {
+      ['navDbStatusBadge', 'adminDbStatusBadge'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.textContent = statusText;
+          el.className = `supabase-status-badge ${className}`.trim();
+        }
+      });
+    }
+
+    async function initSupabase() {
+      if (window.supabase && SUPABASE_CONFIG.url && SUPABASE_CONFIG.key) {
+        try {
+          supabaseClient = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.key);
+          isSupabaseReady = true;
+          updateSupabaseBadges('🟢 Supabase Live', '');
+          await syncFromSupabase();
+          setupSupabaseRealtime();
+        } catch (e) {
+          console.warn('Supabase connection note:', e);
+          updateSupabaseBadges('⚡ LocalStorage Mode', 'connecting');
+        }
+      } else {
+        updateSupabaseBadges('⚡ LocalStorage Mode', 'connecting');
+      }
+    }
+
+    async function syncFromSupabase() {
+      if (!supabaseClient) return;
+
+      // 1. Sync Products from Supabase
+      try {
+        const { data: dbProducts, error: prodErr } = await supabaseClient
+          .from('products')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (!prodErr && dbProducts && dbProducts.length > 0) {
+          PRODUCTS = dbProducts.map(p => ({
+            id: p.id,
+            name: p.name,
+            category: p.category,
+            price: parseFloat(p.price),
+            rating: parseFloat(p.rating || 5.0),
+            reviewsCount: parseInt(p.reviews_count || 1, 10),
+            tag: p.tag || '',
+            tagClass: p.tag_class || '',
+            image: p.image || '',
+            emoji: p.emoji || '🍩',
+            desc: p.description || '',
+            featured: !!p.featured,
+            inStock: p.in_stock !== false,
+            optionsLabel: p.options_label || 'Pack Quantity',
+            options: p.options || [{ name: 'Standard', priceDelta: 0 }]
+          }));
+          saveState();
+          renderFeaturedProducts();
+          renderFullMenu();
+          refreshAdminData();
+          updateSupabaseBadges('🟢 Supabase Synced', '');
+        } else if (prodErr && prodErr.code === 'PGRST205') {
+          // Table doesn't exist yet in Supabase
+          updateSupabaseBadges('🟡 Run SQL in Supabase', 'connecting');
+        }
+      } catch (err) {
+        console.warn('Supabase products sync error:', err);
+      }
+
+      // 2. Sync Site Settings (CMS Copy & Hours)
+      try {
+        const { data: dbSettings, error: settErr } = await supabaseClient
+          .from('site_settings')
+          .select('content')
+          .eq('id', 'main')
+          .maybeSingle();
+
+        if (!settErr && dbSettings && dbSettings.content) {
+          siteContent = { ...DEFAULT_SITE_CONTENT, ...dbSettings.content };
+          saveState();
+          applySiteContent();
+        }
+      } catch (err) {
+        console.warn('Supabase site settings sync error:', err);
+      }
+
+      // 3. Sync Orders (Live Kitchen & Customer Tickets)
+      try {
+        const { data: dbOrders, error: orderErr } = await supabaseClient
+          .from('orders')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (!orderErr && dbOrders && dbOrders.length > 0) {
+          appState.orders = dbOrders.map(o => ({
+            id: o.id,
+            customerName: o.customer_name || 'Customer',
+            customerEmail: o.customer_email || '',
+            customerPhone: o.customer_phone || '',
+            customerAddress: o.customer_address || '',
+            items: o.items || '',
+            type: o.type || 'Delivery',
+            total: parseFloat(o.total || 0),
+            status: o.status || 'new',
+            time: o.created_at ? new Date(o.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Recent'
+          }));
+          saveState();
+          refreshAdminData();
+        }
+      } catch (err) {
+        console.warn('Supabase orders sync error:', err);
+      }
+    }
+
+    function setupSupabaseRealtime() {
+      if (!supabaseClient) return;
+      try {
+        supabaseClient
+          .channel('doughnut_realtime_channel')
+          .on('postgres_changes', { event: '*', schema: 'public', table: 'products' }, payload => {
+            console.log('Realtime product event:', payload);
+            syncFromSupabase();
+          })
+          .on('postgres_changes', { event: '*', schema: 'public', table: 'orders' }, payload => {
+            console.log('Realtime order event:', payload);
+            syncFromSupabase();
+            if (payload.eventType === 'INSERT') {
+              showToast(`🔔 New order arrived in kitchen: ${payload.new.id}`, '🍩');
+            }
+          })
+          .on('postgres_changes', { event: '*', schema: 'public', table: 'site_settings' }, payload => {
+            console.log('Realtime site settings event:', payload);
+            syncFromSupabase();
+          })
+          .subscribe();
+      } catch (e) {
+        console.warn('Realtime subscription error:', e);
+      }
+    }
+
+    // Cloud CRUD helpers
+    async function cloudSaveProduct(prod) {
+      if (!supabaseClient) return;
+      try {
+        const row = {
+          id: prod.id,
+          name: prod.name,
+          category: prod.category,
+          price: prod.price,
+          rating: prod.rating || 5.0,
+          reviews_count: prod.reviewsCount || 1,
+          tag: prod.tag || '',
+          tag_class: prod.tagClass || '',
+          image: prod.image || '',
+          emoji: prod.emoji || '🍩',
+          description: prod.desc || '',
+          featured: !!prod.featured,
+          in_stock: prod.inStock !== false,
+          options_label: prod.optionsLabel || 'Pack Quantity',
+          options: prod.options || []
+        };
+        await supabaseClient.from('products').upsert(row);
+      } catch (e) {
+        console.warn('cloudSaveProduct error:', e);
+      }
+    }
+
+    async function cloudDeleteProduct(id) {
+      if (!supabaseClient) return;
+      try {
+        await supabaseClient.from('products').delete().eq('id', id);
+      } catch (e) {
+        console.warn('cloudDeleteProduct error:', e);
+      }
+    }
+
+    async function cloudSaveSiteSettings(content) {
+      if (!supabaseClient) return;
+      try {
+        await supabaseClient.from('site_settings').upsert({
+          id: 'main',
+          content: content,
+          updated_at: new Date().toISOString()
+        });
+      } catch (e) {
+        console.warn('cloudSaveSiteSettings error:', e);
+      }
+    }
+
+    async function cloudSaveOrder(order) {
+      if (!supabaseClient) return;
+      try {
+        await supabaseClient.from('orders').insert([{
+          id: order.id,
+          customer_name: order.customerName,
+          customer_email: order.customerEmail,
+          customer_phone: order.customerPhone,
+          customer_address: order.customerAddress,
+          items: order.items,
+          type: order.type,
+          total: order.total,
+          status: order.status
+        }]);
+      } catch (e) {
+        console.warn('cloudSaveOrder error:', e);
+      }
+    }
+
+    async function cloudUpdateOrderStatus(id, status) {
+      if (!supabaseClient) return;
+      try {
+        await supabaseClient.from('orders').update({ status }).eq('id', id);
+      } catch (e) {
+        console.warn('cloudUpdateOrderStatus error:', e);
+      }
+    }
+
     function formatMoney(amount) {
       return `${CONFIG.CURRENCY}${parseFloat(amount).toFixed(2)}`;
     }
@@ -1956,11 +2215,36 @@
       document.getElementById('adminPassword').value = 'admin123';
     });
 
-    document.getElementById('customerLoginForm').addEventListener('submit', e => {
+    document.getElementById('customerLoginForm').addEventListener('submit', async e => {
       e.preventDefault();
       const email = document.getElementById('custEmail').value.trim();
       const pass = document.getElementById('custPassword').value.trim();
       if (!email || !pass) return;
+
+      if (supabaseClient) {
+        try {
+          const { data: authData, error: authErr } = await supabaseClient.auth.signInWithPassword({
+            email: email,
+            password: pass
+          });
+          if (!authErr && authData && authData.user) {
+            appState.currentUser = {
+              role: 'customer',
+              name: authData.user.user_metadata?.name || email.split('@')[0],
+              email: authData.user.email,
+              phone: authData.user.user_metadata?.phone || '',
+              address: authData.user.user_metadata?.address || ''
+            };
+            saveState();
+            updateAuthNavUI();
+            closeAuthModal();
+            showToast(`Welcome back, ${appState.currentUser.name}! (Supabase Auth)`, '🍩');
+            document.getElementById('orderName').value = appState.currentUser.name;
+            document.getElementById('orderEmail').value = appState.currentUser.email;
+            return;
+          }
+        } catch (err) {}
+      }
 
       appState.currentUser = {
         role: 'customer',
@@ -1980,13 +2264,34 @@
       document.getElementById('orderAddress').value = appState.currentUser.address || '';
     });
 
-    document.getElementById('customerRegisterForm').addEventListener('submit', e => {
+    document.getElementById('customerRegisterForm').addEventListener('submit', async e => {
       e.preventDefault();
       const name = document.getElementById('regName').value.trim();
       const email = document.getElementById('regEmail').value.trim();
       const pass = document.getElementById('regPassword').value.trim();
 
       if (!name || !email || pass.length < 6) return;
+
+      if (supabaseClient) {
+        try {
+          const { data: authData, error: authErr } = await supabaseClient.auth.signUp({
+            email: email,
+            password: pass,
+            options: { data: { name: name } }
+          });
+          if (!authErr && authData && authData.user) {
+            appState.currentUser = { role: 'customer', name, email, phone: '', address: '' };
+            saveState();
+            updateAuthNavUI();
+            closeAuthModal();
+            showToast(`Welcome to DoughNut, ${name}! Account saved to Supabase! 🎉`, '✨');
+            document.getElementById('orderName').value = name;
+            document.getElementById('orderEmail').value = email;
+            return;
+          }
+        } catch (err) {}
+      }
+
       appState.currentUser = { role: 'customer', name, email, phone: '', address: '' };
       saveState();
       updateAuthNavUI();
@@ -2151,6 +2456,7 @@
       if (!appState.orders[idx]) return;
       appState.orders[idx].status = val;
       saveState();
+      cloudUpdateOrderStatus(appState.orders[idx].id, val);
       refreshAdminData();
       showToast(`Order ${appState.orders[idx].id} updated to ${val.toUpperCase()}`, '📝');
     };
@@ -2186,6 +2492,7 @@
 
       PRODUCTS.unshift(newProduct);
       saveState();
+      cloudSaveProduct(newProduct);
       renderFeaturedProducts();
       renderFullMenu();
       refreshAdminData();
@@ -2250,6 +2557,7 @@
       siteContent.locationLandmark = document.getElementById('editLocationLandmark').value.trim();
 
       saveState();
+      cloudSaveSiteSettings(siteContent);
       applySiteContent();
       closeSiteInfoModal();
       showToast('Website copy & information successfully updated!', '💾');
@@ -2259,6 +2567,7 @@
       if (confirm('Reset all website headlines, hours and copy back to original default bakery copy?')) {
         siteContent = { ...DEFAULT_SITE_CONTENT };
         saveState();
+        cloudSaveSiteSettings(siteContent);
         applySiteContent();
         openSiteInfoModal();
         showToast('Restored default website copy.', '🔄');
@@ -2313,6 +2622,7 @@
       product.inStock = document.getElementById('editProdInStock').checked;
 
       saveState();
+      cloudSaveProduct(product);
       renderFeaturedProducts();
       renderFullMenu();
       refreshAdminData();
@@ -2328,6 +2638,7 @@
       if (confirm(`Are you sure you want to delete "${product.name}" from the store menu?`)) {
         PRODUCTS = PRODUCTS.filter(p => p.id !== id);
         saveState();
+        cloudDeleteProduct(id);
         renderFeaturedProducts();
         renderFullMenu();
         refreshAdminData();
@@ -2821,6 +3132,8 @@
         id: randomId,
         customerName: name,
         customerEmail: email,
+        customerPhone: phone,
+        customerAddress: address,
         items: itemsSummary,
         type: appState.fulfillmentMode === 'delivery' ? 'Delivery' : 'Pickup',
         total: orderTotal,
@@ -2828,6 +3141,7 @@
         time: 'Just now'
       };
       appState.orders.unshift(newOrder);
+      cloudSaveOrder(newOrder);
 
       document.getElementById('confirmedOrderId').textContent = randomId;
       document.getElementById('confirmedEstTime').textContent = appState.fulfillmentMode === 'delivery' ? '25 - 35 mins' : '10 - 15 mins';
@@ -2972,6 +3286,7 @@
       setupByoBox();
       updateCartBadge();
       renderCartItems();
+      initSupabase();
     });
   </script>
 </body>

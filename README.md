@@ -33,7 +33,22 @@ A complete, self-contained, production-quality e-commerce and store operations w
   - **In-Place Website CMS (`✏️ Edit Website Info`)**: Live-update announcement bar copy, hero headline, about brand story, counter metrics, store hours, and contact details.
   - **Direct Menu Product Editing (`✏️ Edit` on Cards)**: Update prices, names, photos, descriptions, categories, or toggle items as *Sold Out*.
   - **Kitchen & Order Console**: Real-time kitchen tickets with status transitions (`New Ticket` ➔ `Baking` ➔ `Out for Delivery` ➔ `Completed`).
-  - **Persistent Storage**: All custom edits, products, cart state, and order tickets persist in `localStorage`.
+  - **Supabase Cloud Database & Realtime**: Integrated with Supabase Postgres for shared cloud catalog, live kitchen order sync, and authentication with seamless offline/localStorage fallback.
+
+---
+
+## ⚡ Supabase Cloud Setup (1-Minute)
+
+Your application is already configured with your Supabase credentials:
+- **Project URL**: `https://yuqulyumgvkvktfzrdgc.supabase.co`
+
+To enable the cloud database and realtime sync across all visitors and devices:
+1. Open your [Supabase Dashboard](https://supabase.com/dashboard).
+2. Go to **SQL Editor** ➔ **New Query**.
+3. Copy and paste the contents of [`supabase_schema.sql`](supabase_schema.sql).
+4. Click **Run**.
+
+This automatically creates the `products`, `orders`, and `site_settings` tables, seeds all 18 gourmet products, configures open public read/write access policies, and enables instant Realtime updates!
 
 ---
 
